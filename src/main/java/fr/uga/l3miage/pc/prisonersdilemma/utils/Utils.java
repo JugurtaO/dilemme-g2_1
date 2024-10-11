@@ -11,34 +11,38 @@ import java.util.logging.Logger;
 public class Utils {
     private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
     private Utils(){}
-    public static void displayStrategiesMenu(){
-        LOGGER.info("Please choose one STRATEGY : ");
-        LOGGER.info("1. Donnant donnant");
-        LOGGER.info("2. Donnant donnant / random");
-        LOGGER.info("3. Donnant for two donnants / random");
-        LOGGER.info("4. Donnant for two donnants");
-        LOGGER.info("5. Naive Sounder");
-        LOGGER.info("6. Repentant Sounder");
-        LOGGER.info("7. Naive peacemaker");
-        LOGGER.info("8. True peacemaker");
-        LOGGER.info("9. Random");
-        LOGGER.info("10. Always betray");
-        LOGGER.info("11. Always cooperate");
-        LOGGER.info("12. Resentful");
-        LOGGER.info("13. Pavlov");
-        LOGGER.info("14. Pavlov / random");
-        LOGGER.info("15. Adaptive");
-        LOGGER.info("15. Gradual");
-        LOGGER.info("15. Suspicious donnant donnant");
-        LOGGER.info("15. Sweat Resentful");
+
+
+
+
+    public static void displayStrategiesMenu() {
+        System.out.println("Please choose one STRATEGY : ");
+        System.out.println("1. Donnant donnant");
+        System.out.println("2. Donnant donnant / random");
+        System.out.println("3. Donnant for two donnants / random");
+        System.out.println("4. Donnant for two donnants");
+        System.out.println("5. Naive Sounder");
+        System.out.println("6. Repentant Sounder");
+        System.out.println("7. Naive peacemaker");
+        System.out.println("8. True peacemaker");
+        System.out.println("9. Random");
+        // System.out.println("10. Always betray");
+        // System.out.println("11. Always cooperate");
+        // System.out.println("12. Resentful");
+        // System.out.println("13. Pavlov");
+        // System.out.println("14. Pavlov / random");
+        // System.out.println("15. Adaptive");
+        // System.out.println("16. Gradual");
+        // System.out.println("17. Suspicious donnant donnant");
+        // System.out.println("18. Sweat Resentful");
     }
 
-    public static int chooseStrategy(String name){
-        Scanner scanner = new Scanner(System.in);  // Create a Scanner object
-        LOGGER.info(String.format("Player %s, choose strategy number : ",name));
+    public static int chooseStrategy(String name) {
+        Scanner scanner = new Scanner(System.in); // Create a Scanner object
+        System.out.println("Player " + name + " , choose strategy number : ");
         int strategyNumber = scanner.nextInt();
-        while(strategyNumber <1 || strategyNumber>18){
-            LOGGER.info("Enter a valid strategy number [1 - 18 ] : ");
+        while (strategyNumber < 1 || strategyNumber > 18) {
+            System.out.println("Enter a valid strategy number [1 - 18 ] : ");
             strategyNumber = scanner.nextInt();
         }
 
@@ -66,10 +70,10 @@ public class Utils {
         LOGGER.info(String.format("Joueur %d, saisissez votre pseudo !",playerNum));
         LOGGER.info(" Pseudo : ");
         String name=scanner.nextLine();
-
         return name;
 
     }
+
     public static int askPlayer1ForNbTours() {
         Scanner scanner1 = new Scanner(System.in);
         LOGGER.info("Joueur 1, veuillez saisir le nombre de tours à jouer !");
@@ -82,16 +86,17 @@ public class Utils {
 
         return nbTours;
     }
-    public static void calculateScores(Player p1, boolean player1Decision, Player p2,boolean player2Decision){
-        if(player1Decision && player2Decision){
+
+    public static void calculateScores(Player p1, boolean player1Decision, Player p2, boolean player2Decision) {
+        if (player1Decision && player2Decision) {
             p1.updateScore(3);
             p2.updateScore(3);
         } else if (player1Decision) {
-                p2.updateScore(5);
+            p2.updateScore(5);
 
         } else if (player2Decision) {
-                p1.updateScore(5);
-        }else {
+            p1.updateScore(5);
+        } else {
             p1.updateScore(1);
             p2.updateScore(1);
         }
@@ -113,14 +118,13 @@ public class Utils {
 
         while(!repsonse.toLowerCase().equals("yes") && !repsonse.toLowerCase().equals("no")){
             LOGGER.info("Enter a valide response YES/NO: ");
+
             repsonse = scanner.nextLine();
         }
 
-        if(repsonse.equals("yes")){
+        if (repsonse.equals("yes")) {
             player.leaveEncounter();
         }
 
     }
 }
-
-
