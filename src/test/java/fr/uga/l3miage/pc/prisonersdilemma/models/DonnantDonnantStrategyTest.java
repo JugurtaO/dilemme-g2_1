@@ -1,13 +1,11 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models;
 
 
-import org.junit.Test;
 
+import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class DonnantDonnantStrategyTest {

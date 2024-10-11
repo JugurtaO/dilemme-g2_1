@@ -1,12 +1,9 @@
-package fr.uga.l3miage.pc.prisonersdilemma;
+package fr.uga.l3miage.pc.prisonersdilemma.models;
 
-import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
-import fr.uga.l3miage.pc.prisonersdilemma.models.Player;
-import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,11 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-
-
-
-class UtilsTests {
+import org.junit.jupiter.api.*;
+public class UtilsTests {
 	private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 	private final PrintStream standardOut = System.out;
 	private final InputStream standardIn = System.in;
@@ -46,7 +40,7 @@ class UtilsTests {
 	}
 
 	@Test
-	 void testInvalidThenValidStrategyChoice() {
+	void testInvalidThenValidStrategyChoice() {
 		String input = "0\n19\n10\n";
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
 		System.setIn(inputStream);
