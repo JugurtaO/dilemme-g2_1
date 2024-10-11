@@ -4,14 +4,17 @@ package fr.uga.l3miage.pc.prisonersdilemma.models;
 import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import static fr.uga.l3miage.pc.prisonersdilemma.utils.Utils.chooseStrategy;
 
 public class Player  implements  PlayerInterface{
+    private static final Logger LOGGER = Logger.getLogger(Player.class.getName());
+
     private final String name;
     private int score=0;
     private Strategy strategy;
-    private boolean AIMode=false;
+    private boolean aiMode =false;
     private  GameEncounter gameEncounter;
 
     public Player(String name, GameEncounter gameEncounter){
@@ -23,14 +26,14 @@ public class Player  implements  PlayerInterface{
 public void setGameEncounter(GameEncounter gameEncounter){this.gameEncounter=gameEncounter;}
     @Override
     public boolean makeDecision() {
-        if(!AIMode){
+        if(!aiMode){
             //Player makes decision
-            System.out.println(name +" :  make decision (True: to cooperate | False: to betray");
+            LOGGER.info(String.format("%s :  make decision (True: to cooperate | False: to betray",name));
             Scanner scanner = new Scanner(System.in);  // Create a Scanner object
-            System.out.println("Enter decision : ");
+            LOGGER.info("Enter decision : ");
             String playerDecision = scanner.nextLine();
             while(!playerDecision.toLowerCase().equals("true") && !playerDecision.toLowerCase().equals("false")){
-                System.out.print("Enter a valide decision true/false : ");
+                LOGGER.info("Enter a valide decision true/false : ");
                 playerDecision = scanner.nextLine();
             }
 
@@ -38,7 +41,7 @@ public void setGameEncounter(GameEncounter gameEncounter){this.gameEncounter=gam
 
         }else {
             // AI makes decision
-            int opponentPlayerNumber= gameEncounter.getPlayer1Name()==name ? 2:1;
+            int opponentPlayerNumber= gameEncounter.getPlayer1Name().equals(name) ? 2:1;
             return strategy.play(gameEncounter.getHistory(), opponentPlayerNumber);
         }
     }
@@ -54,11 +57,11 @@ public void setGameEncounter(GameEncounter gameEncounter){this.gameEncounter=gam
         return name;
     }
 
-public boolean getAIMode(){return AIMode;}
+public boolean getAiMode(){return aiMode;}
 
     @Override
     public void leaveEncounter() {
-        AIMode=true;
+        aiMode =true;
         Utils.displayStrategiesMenu();
         int strategyNumber=chooseStrategy(name);
 

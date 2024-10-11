@@ -6,38 +6,39 @@ import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class Utils {
-
+    private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
     private Utils(){}
     public static void displayStrategiesMenu(){
-        System.out.println("Please choose one STRATEGY : ");
-        System.out.println("1. Donnant donnant");
-        System.out.println("2. Donnant donnant / random");
-        System.out.println("3. Donnant for two donnants / random");
-        System.out.println("4. Donnant for two donnants");
-        System.out.println("5. Naive Sounder");
-        System.out.println("6. Repentant Sounder");
-        System.out.println("7. Naive peacemaker");
-        System.out.println("8. True peacemaker");
-        System.out.println("9. Random");
-        System.out.println("10. Always betray");
-        System.out.println("11. Always cooperate");
-        System.out.println("12. Resentful");
-        System.out.println("13. Pavlov");
-        System.out.println("14. Pavlov / random");
-        System.out.println("15. Adaptive");
-        System.out.println("15. Gradual");
-        System.out.println("15. Suspicious donnant donnant");
-        System.out.println("15. Sweat Resentful");
+        LOGGER.info("Please choose one STRATEGY : ");
+        LOGGER.info("1. Donnant donnant");
+        LOGGER.info("2. Donnant donnant / random");
+        LOGGER.info("3. Donnant for two donnants / random");
+        LOGGER.info("4. Donnant for two donnants");
+        LOGGER.info("5. Naive Sounder");
+        LOGGER.info("6. Repentant Sounder");
+        LOGGER.info("7. Naive peacemaker");
+        LOGGER.info("8. True peacemaker");
+        LOGGER.info("9. Random");
+        LOGGER.info("10. Always betray");
+        LOGGER.info("11. Always cooperate");
+        LOGGER.info("12. Resentful");
+        LOGGER.info("13. Pavlov");
+        LOGGER.info("14. Pavlov / random");
+        LOGGER.info("15. Adaptive");
+        LOGGER.info("15. Gradual");
+        LOGGER.info("15. Suspicious donnant donnant");
+        LOGGER.info("15. Sweat Resentful");
     }
 
     public static int chooseStrategy(String name){
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("Player "+name +" , choose strategy number : ");
+        LOGGER.info(String.format("Player %s, choose strategy number : ",name));
         int strategyNumber = scanner.nextInt();
         while(strategyNumber <1 || strategyNumber>18){
-            System.out.println("Enter a valid strategy number [1 - 18 ] : ");
+            LOGGER.info("Enter a valid strategy number [1 - 18 ] : ");
             strategyNumber = scanner.nextInt();
         }
 
@@ -62,8 +63,8 @@ public class Utils {
 
     public  static String askPlayerForName(int playerNum){
         Scanner scanner=new Scanner(System.in);
-        System.out.println("Joueur "+playerNum+", saisissez votre pseudo !");
-        System.out.print(" Pseudo : ");
+        LOGGER.info(String.format("Joueur %d, saisissez votre pseudo !",playerNum));
+        LOGGER.info(" Pseudo : ");
         String name=scanner.nextLine();
 
         return name;
@@ -71,11 +72,11 @@ public class Utils {
     }
     public static int askPlayer1ForNbTours() {
         Scanner scanner1 = new Scanner(System.in);
-        System.out.println("Joueur 1, veuillez saisir le nombre de tours à jouer !");
-        System.out.print("Nombre de tours : ");
+        LOGGER.info("Joueur 1, veuillez saisir le nombre de tours à jouer !");
+        LOGGER.info("Nombre de tours : ");
         int nbTours = scanner1.nextInt();
         while (nbTours < 0) {
-            System.out.print("Le nombre de tours doit être positif : ");
+            LOGGER.info("Le nombre de tours doit être positif : ");
             nbTours = scanner1.nextInt();
         }
 
@@ -97,21 +98,21 @@ public class Utils {
     }
 
     public static void displayTourNumberAndScores(int tourNum,Player player1,Player player2){
-        System.out.println("***************************");
-        System.out.println("*** TOUR "+tourNum+" ***");
-        System.out.println(player1.getName() +" :"+player1.getScore());
-        System.out.println(player2.getName() +" :"+player2.getScore());
-        System.out.println("***************************");
+        LOGGER.info("***************************");
+        LOGGER.info(String.format("*** TOUR %d ***",tourNum));
+        LOGGER.info( String.format("%s : %d",player1.getName(),player1.getScore()));
+        LOGGER.info( String.format("%s : %d",player2.getName(),player2.getScore()));
+        LOGGER.info("***************************");
     }
 
     public static void playerLeaveGameHandler(Player player){
         Scanner scanner=new Scanner(System.in);
-        System.out.println(player.getName() +", voullez-vous quitter ? YES/NO");
-        System.out.print(" Réponse : ");
+        LOGGER.info(String.format("%s , voullez-vous quitter ? YES/NO",player.getName()));
+        LOGGER.info(" Réponse : ");
         String repsonse=scanner.nextLine();
 
         while(!repsonse.toLowerCase().equals("yes") && !repsonse.toLowerCase().equals("no")){
-            System.out.print("Enter a valide response YES/NO: ");
+            LOGGER.info("Enter a valide response YES/NO: ");
             repsonse = scanner.nextLine();
         }
 

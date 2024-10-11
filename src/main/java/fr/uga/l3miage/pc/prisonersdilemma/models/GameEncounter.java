@@ -4,8 +4,11 @@ import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public  class GameEncounter {
+    private static final Logger LOGGER = Logger.getLogger(GameEncounter.class.getName());
+
     private int nbTours;
     private Player player1;
     private Player player2;
@@ -40,19 +43,19 @@ public  class GameEncounter {
     public void start(){
 
         for (int i = 1; i <=nbTours ; i++) {
-            System.out.println("******** TOUR "+i+" *********");
+           LOGGER.info(String.format("******** TOUR %d *********",i));
 
-           if(!player1.getAIMode()){
+           if(!player1.getAiMode()){
                Utils.playerLeaveGameHandler(player1);
            }
             boolean player1Decision=player1.makeDecision();
-            System.out.println("# Le joueur 1 a joué, c'est votre tour "+player2.getName()+" ------");
+           LOGGER.info(String.format("# Le joueur 1 a jouï¿½, c'est votre tour %s ------",player2.getName()));
 
-            if(!player2.getAIMode()){
+            if(!player2.getAiMode()){
                 Utils.playerLeaveGameHandler(player2);
             }
             boolean player2Decision=player2.makeDecision();
-            System.out.println("# Le joueur 2 a joué, c'est votre tour "+player1.getName()+" ------");
+           LOGGER.info(String.format("# Le joueur 2 a jouï¿½, c'est votre tour %s------",player1.getName()));
 
 
             Tour tour= new Tour(i,player1Decision,player2Decision);

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DonnantDonnantStrategy extends Strategy{
     @Override
-     boolean play(List<Tour> history, int opponentPlayerNumber) {
+    public boolean play(List<Tour> history, int opponentPlayerNumber) {
         if(history.isEmpty()){
             return true; //cooperate by default because it's the first tour of the encounter
         }

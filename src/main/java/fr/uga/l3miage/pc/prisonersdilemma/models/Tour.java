@@ -5,7 +5,7 @@ public class Tour {
     private final boolean player1Decision;
     private final boolean player2Decision;
 
-    Tour(int tourNumber, boolean decision1, boolean decision2){
+    public Tour(int tourNumber, boolean decision1, boolean decision2){
         this.tourNumber = tourNumber;
         this.player1Decision=decision1;
         this.player2Decision=decision2;

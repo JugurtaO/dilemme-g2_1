@@ -6,11 +6,11 @@ import java.util.Random;
 public class DonnantDonnantRandomStrategy extends  Strategy{
 
     private DonnantDonnantStrategy donnantDonnantStrategy;
-    DonnantDonnantRandomStrategy(){
+    public DonnantDonnantRandomStrategy(){
         this.donnantDonnantStrategy=new DonnantDonnantStrategy();
     }
     @Override
-    boolean play(List<Tour> history, int opponentPlayerNumber) {
+    public boolean play(List<Tour> history, int opponentPlayerNumber) {
         if(history.isEmpty()){
             return true; //cooperate by default because it's the first tour of the encounter
         }
