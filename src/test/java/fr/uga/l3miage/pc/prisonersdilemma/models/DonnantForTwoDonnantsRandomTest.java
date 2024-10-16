@@ -52,7 +52,7 @@ public class DonnantForTwoDonnantsRandomTest {
         history.add(new Tour(2,false,true));
         history.add(new Tour(3,true,false));
         history.add(new Tour(4,true,true));
-        boolean result= donnantForTwoDonnantsRandom.play(history,2);
+        boolean result= donnantForTwoDonnantsRandom.play(history,1);
 
         assertTrue(result);
 
