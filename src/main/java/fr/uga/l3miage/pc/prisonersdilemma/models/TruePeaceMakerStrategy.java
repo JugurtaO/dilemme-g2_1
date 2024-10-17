@@ -9,7 +9,7 @@ public class TruePeaceMakerStrategy extends Strategy{
     @Override
     boolean play(List<Tour> history, int opponentPlayerNumber) {
         if(history.isEmpty() || history.size()<2){
-            return false;
+            return true;
         }
 
         Tour[] lastTwoTours= Utils.getLastTwoTurns(history);
@@ -17,9 +17,11 @@ public class TruePeaceMakerStrategy extends Strategy{
                 (opponentPlayerNumber==2 && lastTwoTours[1].getPlayer2Decision()!= lastTwoTours[0].getPlayer2Decision())){
             return true;
         }else {
-            int k=new Random().nextInt(3)+1;
+            int k=getRandomInstance().nextInt(3)+1;
             return k==3;
         }
 
     }
+
+    public Random getRandomInstance(){return new Random();}
 }
