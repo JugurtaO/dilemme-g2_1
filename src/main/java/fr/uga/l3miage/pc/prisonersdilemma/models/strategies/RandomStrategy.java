@@ -1,0 +1,16 @@
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
+
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
+
+import java.util.List;
+import java.util.Random;
+
+public class RandomStrategy implements Strategy{
+    @Override
+    public boolean play(List<Tour> history, int opponentPlayerNumber) {
+        int k= getRandomInstance().nextInt(2)+1;
+        return k==1;
+    }
+
+    public Random getRandomInstance(){return new Random();}
+}
