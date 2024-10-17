@@ -4,21 +4,23 @@ import java.util.List;
 import java.util.Random;
 
 public class DonnantDonnantRandomStrategy extends  Strategy{
-
-    private DonnantDonnantStrategy donnantDonnantStrategy;
-    public DonnantDonnantRandomStrategy(){
-        this.donnantDonnantStrategy=new DonnantDonnantStrategy();
+    
+    public Random getRandomInstance() {
+        return new Random();
+    }
+    public DonnantDonnantStrategy getDonnantDonnantStrategy(){
+        return new DonnantDonnantStrategy();
     }
     @Override
     public boolean play(List<Tour> history, int opponentPlayerNumber) {
         if(history.isEmpty()){
             return true; //cooperate by default because it's the first tour of the encounter
         }
-        int k= new Random().nextInt(4)+1;
+        int k= getRandomInstance().nextInt(4)+1;
         if(k!=2){
-            return donnantDonnantStrategy.play(history,opponentPlayerNumber);
+            return getDonnantDonnantStrategy().play(history,opponentPlayerNumber);
         }
-        k=new Random().nextInt(2)+1;
+        k=getRandomInstance().nextInt(2)+1;
         return k == 1;
     }
 }

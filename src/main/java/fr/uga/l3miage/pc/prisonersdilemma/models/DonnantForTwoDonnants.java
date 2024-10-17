@@ -5,8 +5,9 @@ import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
 import java.util.List;
 
 public class DonnantForTwoDonnants extends Strategy{
+
     @Override
-    boolean play(List<Tour> history, int opponentPlayerNumber) {
+    public boolean play(List<Tour> history, int opponentPlayerNumber) {
         if(history.isEmpty() || history.size()<2){
             return true;
         }
