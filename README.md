@@ -68,6 +68,6 @@ Exemples:
 * Injection dans la classe de la WebSocket qui écoute les actions des joueurs et qui utilise donc ce service pour calculer les scores.
 
 Le **service** créé est un **Singleton** partagé dans toute l'application (chargé dans le **Application Context** après le démarrage du server Spring). 
-Toutes les méthodes de gestion d'une partie modifient la même instance de service et cela nous facilite énormément la tâche de gérer une partie en mémoire.
+Toutes les méthodes de gestion d'une partie modifient la même instance de service et cela nous facilite énormément la tâche de gérer une partie en mémoire..
 
 
