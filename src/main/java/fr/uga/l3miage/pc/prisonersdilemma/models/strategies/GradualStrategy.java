@@ -1,12 +1,14 @@
-package fr.uga.l3miage.pc.prisonersdilemma.models;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
+
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
 import java.util.List;
 import java.util.Stack;
 
-public class GradualStrategy extends  Strategy{
+public class GradualStrategy implements   Strategy{
     private final Stack<Boolean> playLeft=new Stack<>();
     @Override
-    boolean play(List<Tour> history, int opponentPlayerNumber) {
+    public boolean play(List<Tour> history, int opponentPlayerNumber) {
         if(!playLeft.isEmpty()){
             return playLeft.pop();
         }

@@ -1,10 +1,12 @@
-package fr.uga.l3miage.pc.prisonersdilemma.models;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
+
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
 import java.util.List;
 
-public class PavlovStrategy extends Strategy{
+public class PavlovStrategy implements Strategy{
     @Override
-    boolean play(List<Tour> history, int opponentPlayerNumber) {
+    public boolean play(List<Tour> history, int opponentPlayerNumber) {
         Tour lastTour=history.get(history.size()-1);
         boolean lastChoice=opponentPlayerNumber==1?lastTour.getPlayer2Decision():lastTour.getPlayer1Decision();
         if(lastTour.getPlayerScore(opponentPlayerNumber)==0||lastTour.getPlayerScore(opponentPlayerNumber)==3){

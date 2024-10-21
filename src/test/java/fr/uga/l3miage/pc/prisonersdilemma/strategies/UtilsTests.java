@@ -1,5 +1,8 @@
-package fr.uga.l3miage.pc.prisonersdilemma.models;
+package fr.uga.l3miage.pc.prisonersdilemma.strategies;
 
+import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
+import fr.uga.l3miage.pc.prisonersdilemma.models.Player;
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,10 +1,14 @@
-package fr.uga.l3miage.pc.prisonersdilemma.models;
+package fr.uga.l3miage.pc.prisonersdilemma.strategies;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.AdaptativStrategy;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.Strategy;
 import org.junit.jupiter.api.*;
 public class AdaptativeStrategyTest {
     private final Strategy strategy=new AdaptativStrategy();

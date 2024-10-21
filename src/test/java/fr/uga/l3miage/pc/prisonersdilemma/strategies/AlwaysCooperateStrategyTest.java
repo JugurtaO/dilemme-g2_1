@@ -1,4 +1,4 @@
-package fr.uga.l3miage.pc.prisonersdilemma.models;
+package fr.uga.l3miage.pc.prisonersdilemma.strategies;
 
 
 
@@ -6,11 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.AlwaysCooperateStrategy;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.Strategy;
 import org.junit.jupiter.api.*;
 
-
-public class AlwaysBetrayStrategyTest {
-    private final Strategy strategy=new AlwaysBetrayStrategy();
+public class AlwaysCooperateStrategyTest {
+    private final Strategy strategy=new AlwaysCooperateStrategy();
     @Test
     public void playAsPlayer1() {
         //given
@@ -25,7 +29,7 @@ public class AlwaysBetrayStrategyTest {
         //when
         boolean decision=strategy.play(history,opponentPlayerNumber);
         //then
-        assertFalse(decision);
+        assertTrue(decision);
     }
     @Test
     public void playAsPlayer2() {
@@ -41,7 +45,7 @@ public class AlwaysBetrayStrategyTest {
         //when
         boolean decision=strategy.play(history,opponentPlayerNumber);
         //then
-        assertFalse(decision);
+        assertTrue(decision);
     }
     @Test
     public void playFirstTurn() {
@@ -51,6 +55,6 @@ public class AlwaysBetrayStrategyTest {
         //when
         boolean decision=strategy.play(history,opponentPlayerNumber);
         //then
-        assertFalse(decision);
+        assertTrue(decision);
     }
 }

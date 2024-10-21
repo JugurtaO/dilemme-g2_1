@@ -1,10 +1,12 @@
-package fr.uga.l3miage.pc.prisonersdilemma.models;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
+
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
 import java.util.List;
 
-public class DonnantDonnantSuspiciousStrategy extends Strategy{
+public class DonnantDonnantSuspiciousStrategy implements Strategy{
     @Override
-     boolean play(List<Tour> history,int opponentPlayerNumber) {
+    public boolean play(List<Tour> history, int opponentPlayerNumber) {
         if(history.isEmpty()){
             return false;
         }

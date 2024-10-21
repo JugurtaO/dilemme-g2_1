@@ -1,12 +1,14 @@
-package fr.uga.l3miage.pc.prisonersdilemma.models;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
+
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class AdaptativStrategy extends Strategy{
+public class AdaptativStrategy implements Strategy{
     @Override
-    boolean play(List<Tour> history, int opponentPlayerNumber) {
+    public boolean play(List<Tour> history, int opponentPlayerNumber) {
 
         if(history.size() <5){
             return true;

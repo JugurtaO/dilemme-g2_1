@@ -1,15 +1,18 @@
-package fr.uga.l3miage.pc.prisonersdilemma.models;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
 
 import java.util.List;
 import java.util.Random;
 
-public class DonnantForTwoDonnantsRandomStrategy extends Strategy {
+public class DonnantForTwoDonnantsRandomStrategy implements Strategy {
 
-
+    public Random getRandomInstance() {
+        return new Random();
+    }
     @Override
-    boolean play(List<Tour> history, int opponentPlayerNumber) {
+    public boolean play(List<Tour> history, int opponentPlayerNumber) {
         if(history.size()<2){
             return true; //cooperate by default
         }
@@ -21,7 +24,7 @@ public class DonnantForTwoDonnantsRandomStrategy extends Strategy {
         if(opponentPlayerNumber==2 && lastTwoTours[1].getPlayer2Decision()==lastTwoTours[0].getPlayer2Decision()){
             return lastTwoTours[1].getPlayer2Decision();
         }
-        int k=new Random().nextInt(5)+1;
+        int k=getRandomInstance().nextInt(5)+1;
         return k==1 || k==5;
     }
 }

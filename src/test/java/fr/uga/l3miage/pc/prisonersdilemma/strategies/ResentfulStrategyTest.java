@@ -1,6 +1,9 @@
-package fr.uga.l3miage.pc.prisonersdilemma.models;
+package fr.uga.l3miage.pc.prisonersdilemma.strategies;
 
 
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.ResentfulStrategy;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.Strategy;
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 import java.util.List;
