@@ -71,10 +71,3 @@ Exemples:
 Le **service** créé est un **Singleton** partagé dans toute l'application (chargé dans le **Application Context** après le démarrage du server Spring). 
 Toutes les méthodes de gestion d'une partie modifient la même instance de service et cela nous facilite énormément la tâche de gérer une partie en mémoire.
 
-## SonarQube Analysis 
-```angular2html
-mvn clean verify sonar:sonar \
-  -Dsonar.projectKey=dilemme-g2_1 \
-  -Dsonar.host.url=http://im2ag-sonar.u-ga.fr:9000 \
-  -Dsonar.login=e66c949af166e3e45edc1f97529515f306fcd7b0
-```
