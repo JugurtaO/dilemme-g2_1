@@ -27,6 +27,7 @@ public class strategies19Tests {
         assertTrue(expectedResponse);
     }
 
+
     @Test
     void testPlayRandomStrategyOK() {
         List<Tour> history = new ArrayList<>();
@@ -39,6 +40,20 @@ public class strategies19Tests {
         assertTrue(result);
 
     }
+
+//    @Test
+//    void testPlayRandomStrategyOK() {
+//        List<Tour> history = new ArrayList<>();
+//        history.add(new Tour(1,true,false));
+//
+//        when(random.nextInt(4)).thenReturn(1);
+//        when(random.nextInt(2)).thenReturn(1);
+//        boolean result = donnantDonnantRandomStrategy.play(history, 1);
+//
+//        assertTrue(result);
+//
+//    }
+
 
 //    @Test
 //    void testPlayRandomStrategyDefect2() {
