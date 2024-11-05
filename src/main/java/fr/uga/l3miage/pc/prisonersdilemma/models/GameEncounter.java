@@ -1,18 +1,26 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models;
+import fr.uga.l3miage.pc.prisonersdilemma.GameState;
 import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 
+@Setter
+@Getter
 public  class GameEncounter {
     private static final Logger LOGGER = Logger.getLogger(GameEncounter.class.getName());
 
+    private int gameId;
     private int nbTours;
     private Player player1;
     private Player player2;
-
+    private GameState gameState;
+    private String winner;
 
     private List<Tour> history;
 
@@ -62,6 +70,9 @@ public  class GameEncounter {
 
     }
 
+    public boolean isGameOver(){
+        return winner!=null;
+    }
 
 
 }
