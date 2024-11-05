@@ -55,7 +55,12 @@
             <version>1.10.2</version>
             <scope>test</scope>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>6.1.14</version>
+        </dependency>
 
     </dependencies>
 

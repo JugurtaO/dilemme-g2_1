@@ -1,10 +1,10 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models;
-
 import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
 
 public  class GameEncounter {
     private static final Logger LOGGER = Logger.getLogger(GameEncounter.class.getName());
@@ -12,9 +12,10 @@ public  class GameEncounter {
     private int nbTours;
     private Player player1;
     private Player player2;
-    private String winner;
+
 
     private List<Tour> history;
+
 
 
     public GameEncounter(int n,Player p1,Player p2){
@@ -23,17 +24,12 @@ public  class GameEncounter {
         this.player2=p2;
         this.history=new ArrayList<>();
 
-
     }
 
-    public String getWinner(){
-        return this.winner;
-    }
+
+
     public List<Tour> getHistory(){
         return history;
-    }
-    public boolean isFinished(){
-        return this.winner!=null;
     }
 
     public String getPlayer1Name(){
