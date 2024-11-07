@@ -9,9 +9,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class Utils {
-    private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
     private Utils(){}
-
 
 
 
@@ -67,8 +65,8 @@ public class Utils {
 
     public  static String askPlayerForName(int playerNum){
         Scanner scanner=new Scanner(System.in);
-        LOGGER.info(String.format("Joueur %d, saisissez votre pseudo !",playerNum));
-        LOGGER.info(" Pseudo : ");
+        System.out.println("Joueur "+playerNum+", saisissez votre pseudo !");
+        System.out.println(" Pseudo : ");
         String name=scanner.nextLine();
         return name;
 
@@ -76,11 +74,11 @@ public class Utils {
 
     public static int askPlayer1ForNbTours() {
         Scanner scanner1 = new Scanner(System.in);
-        LOGGER.info("Joueur 1, veuillez saisir le nombre de tours à jouer !");
-        LOGGER.info("Nombre de tours : ");
+        System.out.println("Joueur 1, veuillez saisir le nombre de tours à jouer !");
+        System.out.println("Nombre de tours : ");
         int nbTours = scanner1.nextInt();
         while (nbTours < 0) {
-            LOGGER.info("Le nombre de tours doit être positif : ");
+            System.out.println("Le nombre de tours doit être positif : ");
             nbTours = scanner1.nextInt();
         }
 
@@ -103,21 +101,21 @@ public class Utils {
     }
 
     public static void displayTourNumberAndScores(int tourNum,Player player1,Player player2){
-        LOGGER.info("***************************");
-        LOGGER.info(String.format("*** TOUR %d ***",tourNum));
-        LOGGER.info( String.format("%s : %d",player1.getName(),player1.getScore()));
-        LOGGER.info( String.format("%s : %d",player2.getName(),player2.getScore()));
-        LOGGER.info("***************************");
+        System.out.println("***************************");
+        System.out.println("*** TOUR "+tourNum+" ***");
+        System.out.println( player1.getName()+" : "+player1.getScore());
+        System.out.println(player2.getName()+" : "+player2.getScore());
+        System.out.println("***************************");
     }
 
     public static void playerLeaveGameHandler(Player player){
         Scanner scanner=new Scanner(System.in);
-        LOGGER.info(String.format("%s , voullez-vous quitter ? YES/NO",player.getName()));
-        LOGGER.info(" Réponse : ");
+        System.out.println(player.getName()+" , voullez-vous quitter ? YES/NO");
+        System.out.println(" Réponse : ");
         String repsonse=scanner.nextLine();
 
         while(!repsonse.toLowerCase().equals("yes") && !repsonse.toLowerCase().equals("no")){
-            LOGGER.info("Enter a valide response YES/NO: ");
+            System.out.println("Enter a valide response YES/NO: ");
 
             repsonse = scanner.nextLine();
         }
