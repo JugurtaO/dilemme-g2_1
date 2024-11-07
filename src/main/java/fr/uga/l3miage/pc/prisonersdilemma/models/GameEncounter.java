@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 @Setter
 @Getter
 public  class GameEncounter {
-    private static final Logger LOGGER = Logger.getLogger(GameEncounter.class.getName());
-
     private int gameId;
     private int nbTours;
     private Player player1;
@@ -47,19 +45,19 @@ public  class GameEncounter {
     public void start(){
 
         for (int i = 1; i <=nbTours ; i++) {
-           LOGGER.info(String.format("******** TOUR %d *********",i));
+            System.out.println("******** TOUR "+i+" *********");
 
            if(!player1.getAiMode()){
                Utils.playerLeaveGameHandler(player1);
            }
             boolean player1Decision=player1.makeDecision();
-           LOGGER.info(String.format("# Le joueur 1 a jou�, c'est votre tour %s ------",player2.getName()));
+            System.out.println("# Le joueur 1 a jou�, c'est votre tour"+player2.getName()+" ------");
 
             if(!player2.getAiMode()){
                 Utils.playerLeaveGameHandler(player2);
             }
             boolean player2Decision=player2.makeDecision();
-           LOGGER.info(String.format("# Le joueur 2 a jou�, c'est votre tour %s------",player1.getName()));
+           System.out.println("# Le joueur 2 a jou�, c'est votre tour"+player1.getName()+"------");
 
 
             Tour tour= new Tour(i,player1Decision,player2Decision);

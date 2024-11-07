@@ -10,8 +10,6 @@ import static fr.uga.l3miage.pc.prisonersdilemma.utils.Utils.chooseStrategy;
 
 
 public class Player implements PlayerInterface {
-    private static final Logger LOGGER = Logger.getLogger(Player.class.getName());
-
     private final String name;
     private int score = 0;
     private Strategy strategy;
@@ -34,12 +32,12 @@ public class Player implements PlayerInterface {
     public boolean makeDecision() {
         if (!aiMode) {
             //Player makes decision
-            LOGGER.info(String.format("%s :  make decision (True: to cooperate | False: to betray", name));
+            System.out.println ("make decision (True: to cooperate | False: to betray)"+ name);
             Scanner scanner = new Scanner(System.in);  // Create a Scanner object
-            LOGGER.info("Enter decision : ");
+            System.out.println("Enter decision : ");
             String playerDecision = scanner.nextLine();
             while (!playerDecision.toLowerCase().equals("true") && !playerDecision.toLowerCase().equals("false")) {
-                LOGGER.info("Enter a valide decision true/false : ");
+                System.out.println("Enter a valide decision true/false : ");
                 playerDecision = scanner.nextLine();
             }
 

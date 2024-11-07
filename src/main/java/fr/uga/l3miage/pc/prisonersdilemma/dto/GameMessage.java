@@ -14,12 +14,9 @@ public class GameMessage {
     private String playerName2;
     private String winner;
     private String content;
-    private boolean decision;
+    private Boolean decision;
     private GameState gameState;
     private String sender;
-
-    public GameMessage() {
-    }
 
     public GameMessage(GameEncounter game) {
         this.gameId = game.getGameId();

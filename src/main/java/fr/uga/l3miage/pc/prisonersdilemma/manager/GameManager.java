@@ -3,6 +3,8 @@ package fr.uga.l3miage.pc.prisonersdilemma.manager;
 
 import fr.uga.l3miage.pc.prisonersdilemma.GameState;
 import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
+import fr.uga.l3miage.pc.prisonersdilemma.models.Player;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,7 +24,7 @@ public class GameManager {
     /**
      * Map of players waiting to join a dilemaPrisonners game, with the player's name as the key.
      */
-    protected final Map<String, String> waitingPlayers;
+    protected final Map<String, Integer> waitingPlayers;
 
     /**
      * Constructs a new TicTacToeManager.
@@ -35,25 +37,36 @@ public class GameManager {
     /**
      * Attempts to add a player to an existing dilema game, or creates a new game if no open games are available.
      *
-     * @param player the name of the player
+     * @param playerName the name of the player
      * @return the dilema game the player was added to
      */
-    public synchronized GameEncounter joinGame(String player) {
-        if (games.values().stream().anyMatch(game -> game.getPlayer1().equals(player) || (game.getPlayer2() != null && game.getPlayer2().equals(player)))) {
-            return games.values().stream().filter(game -> game.getPlayer1().equals(player) || game.getPlayer2().equals(player)).findFirst().get();
+    public synchronized GameEncounter joinGame(String playerName) {
+
+        //REVOIR cette condition et la simplifier (Peut être l'enlever )
+        if (games.values().stream()
+                .anyMatch(game -> game.getPlayer1().getName().equals(playerName) ||
+                                (game.getPlayer2() != null && game.getPlayer2().getName().equals(playerName)))
+        )
+        {
+            return games.values()
+                    .stream()
+                    .filter(game -> game.getPlayer1().getName().equals(playerName) || game.getPlayer2().getName().equals(playerName)).findFirst().get();
         }
 
         for (GameEncounter game : games.values()) {
             if (game.getPlayer1() != null && game.getPlayer2() == null) {
+                Player player=new Player(playerName,game);
                 game.setPlayer2(player);
-                game.setGameState(GameState.PLAYER1_TURN);
+                game.setGameState(GameState.GAME_IN_PROGRESS);
                 return game;
             }
         }
 
-        GameEncounter game = new GameEncounter(player, null);
+        Player player=new Player(playerName,null);
+        GameEncounter game = new GameEncounter(5, player,null);
+        player.setGameEncounter(game);
         games.put(game.getGameId(), game);
-        waitingPlayers.put(player, game.getGameId());
+        waitingPlayers.put(playerName, game.getGameId());
         return game;
     }
 
@@ -61,29 +74,27 @@ public class GameManager {
      * Removes a player from their Tic-Tac-Toe game. If the player was the only player in the game,
      * the game is removed.
      *
-     * @param player the name of the player
+     * @param playerName the name of the player
      */
-    public synchronized GameEncounter leaveGame(String player) {
-        String gameId = getGameByPlayer(player) != null ? getGameByPlayer(player).getGameId() : null;
+    public synchronized GameEncounter leaveGame(String playerName) {
+        Integer gameId = getGameByPlayer(playerName) != null ? getGameByPlayer(playerName).getGameId() : null;
         if (gameId != null) {
-            waitingPlayers.remove(player);
+            waitingPlayers.remove(playerName);
             GameEncounter game = games.get(gameId);
-            if (player.equals(game.getPlayer1())) {
+            if (playerName.equals(game.getPlayer1().getName())) {
                 if (game.getPlayer2() != null) {
                     game.setPlayer1(game.getPlayer2());
                     game.setPlayer2(null);
                     game.setGameState(GameState.WAITING_FOR_PLAYER);
-                    game.setBoard(new String[3][3]);
                     waitingPlayers.put(game.getPlayer1Name(), game.getGameId());
                 } else {
                     games.remove(gameId);
                     return null;
                 }
-            } else if (player.equals(game.getPlayer2())) {
+            } else if (playerName.equals(game.getPlayer2().getName())) {
                 game.setPlayer2(null);
                 game.setGameState(GameState.WAITING_FOR_PLAYER);
-                game.setBoard(new String[3][3]);
-                waitingPlayers.put(game.getPlayer1(), game.getGameId());
+                waitingPlayers.put(game.getPlayer1().getName(), game.getGameId());
             }
             return game;
         }
@@ -107,8 +118,8 @@ public class GameManager {
      * @return the Tic-Tac-Toe game the given player is in, or null if the player is not in a game
      */
     public GameEncounter getGameByPlayer(String playerName) {
-        return games.values().stream().filter(game -> game.getPlayer1().equals(playerName) || (game.getPlayer2() != null &&
-                game.getPlayer2().equals(playerName))).findFirst().orElse(null);
+        return games.values().stream().filter(game -> game.getPlayer1().getName().equals(playerName) || (game.getPlayer2() != null &&
+                game.getPlayer2().getName().equals(playerName))).findFirst().orElse(null);
     }
 
     /**
