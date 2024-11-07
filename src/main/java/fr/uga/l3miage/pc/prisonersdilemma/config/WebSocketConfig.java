@@ -22,10 +22,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      *
      * @param registry the registry for registering STOMP endpoints
      */
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
-    }
+//    @Override
+//    public void registerStompEndpoints(StompEndpointRegistry registry) {
+//        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+//    }
 
     /**
      * Configures the message broker to use destination prefixes to filter messages.
@@ -35,11 +35,22 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      *
      * @param registry the registry for configuring the message broker
      */
+//    @Override
+//    public void configureMessageBroker(MessageBrokerRegistry registry) {
+//        registry.setApplicationDestinationPrefixes("/app");
+//        registry.enableSimpleBroker("/queue", "/topic", "/user");
+//        registry.setUserDestinationPrefix("/user");
+//
+//    }
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/queue", "/topic", "/user");
-        registry.setUserDestinationPrefix("/user");
+        registry.enableSimpleBroker("/topic");  // Destinations pour les messages entrants
+        registry.setApplicationDestinationPrefixes("/app");  // Préfixe des destinations pour les messages sortants
+    }
 
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/ws") .setAllowedOrigins("http://localhost:4200") .withSockJS();
     }
 }

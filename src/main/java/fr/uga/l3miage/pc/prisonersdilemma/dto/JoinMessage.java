@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class JoinMessage {
-    private String type;
+    private String Messagetype;
     private String gameId;
     private String playerName;
     private String content;

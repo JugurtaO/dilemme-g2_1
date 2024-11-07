@@ -5,7 +5,7 @@ import fr.uga.l3miage.pc.prisonersdilemma.GameState;
 import fr.uga.l3miage.pc.prisonersdilemma.dto.JoinMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.dto.PlayerMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.dto.GameMessage;
-import fr.uga.l3miage.pc.prisonersdilemma.manager.GameManager;
+import fr.uga.l3miage.pc.prisonersdilemma.services.GameService;
 import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -21,28 +21,21 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 /**
  * Controller class for handling WebSocket messages and managing the Tic-Tac-Toe games.
  *
- * @author Joabson Arley do Nascimento
+ * @author Jugurta
  */
 @Controller
 public class MessageController {
 
-    /**
-     * Template for sending messages to clients through the message broker.
-     */
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    /**
-     * Manager for the Tic-Tac-Toe games.
-     */
-    private final GameManager gameManager = new GameManager();
+    private final GameService gameService = new GameService();
 
-//Test controller
+  //Test controller
     @MessageMapping("/send")  // Client sends to /app/send
     @SendTo("/topic/messages")  // Server broadcasts to /topic/messages
-    public GameMessage handleMessage(GameMessage message) {
-        // Process message here if needed
-        return message;
+    public String handleMessage(String  message) throws Exception{
+        return "Message reçu : " + message;
     }
 
     /**
@@ -53,23 +46,17 @@ public class MessageController {
      * @param message the message from the client containing the player's name
      * @return the current state of the game, or an error message if the player was unable to join
      */
-//    @MessageMapping("/game.join")
-//    @SendTo("/topic/game.state")
-    //public Object joinGame(@Payload JoinMessage message, SimpMessageHeaderAccessor headerAccessor) {
-//        GameEncounter game = gameManager.joinGame(message.getPlayerName());
-//        if (game == null) {
-//            GameMessage errorMessage = new GameMessage();
-//            errorMessage.setType("error");
-//            errorMessage.setContent("Aucune partie en cours!");
-//            return errorMessage;
-//        }
-//        headerAccessor.getSessionAttributes().put("gameId", game.getGameId());
-//        headerAccessor.getSessionAttributes().put("player", message.getPlayerName());
-//
-//        GameMessage gameMessage = gameToMessage(game);
-//        gameMessage.setType("game.joined");
-//        return gameMessage;
-    //}
+    @MessageMapping("/game.join")
+    @SendTo("/topic/game.state")
+    public Object joinGame(@Payload JoinMessage message, SimpMessageHeaderAccessor headerAccessor) {
+        GameEncounter game = gameService.joinGame(message.getPlayerName());
+        headerAccessor.getSessionAttributes().put("gameId", game.getGameId());
+        headerAccessor.getSessionAttributes().put("player", message.getPlayerName());
+
+        GameMessage gameMessage = new GameMessage(game);
+        gameMessage.setMessagetype("game.joined");
+        return gameMessage;
+    }
 
     /**
      * Handles a request from a client to leave a Tic-Tac-Toe game.
@@ -80,12 +67,12 @@ public class MessageController {
      */
     @MessageMapping("/game.leave")
     public void leaveGame(@Payload PlayerMessage message) {
-//        GameEncounter game = gameManager.leaveGame(message.getPlayerName());
-//        if (game != null) {
-//            GameMessage gameMessage = gameToMessage(game);
-//            gameMessage.setType("game.left");
-//            messagingTemplate.convertAndSend("/topic/game." + game.getGameId(), gameMessage);
-//        }
+        GameEncounter game = gameService.leaveGame(message.getPlayerName());
+        if (game != null) {
+            GameMessage gameMessage = new GameMessage(game);
+            gameMessage.setMessagetype("game.left");
+            messagingTemplate.convertAndSend("/topic/game." + game.getGameId(), gameMessage);
+        }
     }
 
     /**
@@ -104,27 +91,33 @@ public class MessageController {
      */
     @MessageMapping("/game.move")
     public void makeDecision(@Payload GameMessage message) {
-//        String playerName= message.getSender();
-//        int gameId = message.getGameId();
-//        boolean decision = message.getDecision();
-//        GameEncounter game = gameManager.getGame(gameId);
-//
-//        if (game == null || game.isGameOver()) {
-//            GameMessage errorMessage = new GameMessage();
-//            errorMessage.setType("error");
-//            errorMessage.setContent("Game not found or is already over.");
-//            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
-//            return;
-//        }
-//
-//        if (game.getGameState().equals(GameState.WAITING_FOR_PLAYER)) {
-//            GameMessage errorMessage = new GameMessage();
-//            errorMessage.setType("error");
-//            errorMessage.setContent("Game is waiting for another player to join.");
-//            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
-//            return;
-//        }
-//
+        String playerName= message.getSender();
+        String gameId = message.getGameId();
+        boolean decision = message.getDecision();
+        GameEncounter game = gameService.getGame(gameId);
+
+        if (game == null || game.isGameOver()) {
+            GameMessage errorMessage = new GameMessage();
+            errorMessage.setMessagetype("error");
+            errorMessage.setContent("Game not found or is already over.");
+            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
+            return;
+        }
+
+        if (game.getGameState().equals(GameState.WAITING_FOR_PLAYER)) {
+            GameMessage errorMessage = new GameMessage();
+            errorMessage.setMessagetype("error");
+            errorMessage.setContent("Game is waiting for another player to join.");
+            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
+            return;
+        }
+
+
+        /*
+        * Écrire une condition pour vérifier si les deux joueurs n'ont pas déjà fait une décision
+        * prendre celle du joueur en cours en compte
+        * */
+
 //        if (game.getTurn().equals(playerName)) {
 //            game.makeMove(player, move);
 //
@@ -136,49 +129,41 @@ public class MessageController {
 //                GameMessage gameOverMessage = gameToMessage(game);
 //                gameOverMessage.setType("game.gameOver");
 //                this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameOverMessage);
-//                gameManager.removeGame(gameId);
+//                gameService.removeGame(gameId);
 //            }
 //        }
     }
 
     @EventListener
     public void SessionDisconnectEvent(SessionDisconnectEvent event) {
-//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-//        String gameId = headerAccessor.getSessionAttributes().get("gameId").toString();
-//        String player = headerAccessor.getSessionAttributes().get("player").toString();
-//        GameEncounter game = gameManager.getGame(gameId);
-//        if (game != null) {
-//            if (game.getPlayer1().equals(player)) {
-//                game.setPlayer1(null);
-//                if (game.getPlayer2() != null) {
-//                    game.setGameState(GameState.PLAYER2_WON);
-//                    game.setWinner(game.getPlayer2());
-//                } else {
-//                    gameManager.removeGame(gameId);
-//                }
-//            } else if (game.getPlayer2() != null && game.getPlayer2().equals(player)) {
-//                game.setPlayer2(null);
-//                if (game.getPlayer1() != null) {
-//                    game.setGameState(GameState.PLAYER1_WON);
-//                    game.setWinner(game.getPlayer1());
-//                } else {
-//                    gameManager.removeGame(gameId);
-//                }
-//            }
-//            GameMessage gameMessage = gameToMessage(game);
-//            gameMessage.setType("game.gameOver");
-//            messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage);
-//            gameManager.removeGame(gameId);
-//        }
+        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+        String gameId = headerAccessor.getSessionAttributes().get("gameId").toString();
+        String player = headerAccessor.getSessionAttributes().get("player").toString();
+        GameEncounter game = gameService.getGame(gameId);
+        if (game != null) {
+            if (game.getPlayer1().getName().equals(player)) {
+                game.setPlayer1(null);
+                if (game.getPlayer2() != null) {
+                    game.setGameState(GameState.PLAYER2_WON);
+                    game.setWinner(game.getPlayer2().getName());
+                } else {
+                    gameService.removeGame(gameId);
+                }
+            } else if (game.getPlayer2() != null && game.getPlayer2().equals(player)) {
+                game.setPlayer2(null);
+                if (game.getPlayer1() != null) {
+                    game.setGameState(GameState.PLAYER1_WON);
+                    game.setWinner(game.getPlayer1().getName());
+                } else {
+                    gameService.removeGame(gameId);
+                }
+            }
+            GameMessage gameMessage = new GameMessage(game);
+            gameMessage.setMessagetype("game.gameOver");
+            messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage);
+            gameService.removeGame(gameId);
+        }
     }
 
-  //  private GameMessage gameToMessage(GameEncounter game) {
-//        GameMessage message = new GameMessage();
-//        message.setGameId(game.getGameId());
-//        message.setPlayerName1(game.getPlayer1().getName());
-//        message.setPlayerName2(game.getPlayer2().getName());
-//        message.setGameState(game.getGameState());
-//        message.setWinner(game.getWinner());
-//        return message;
-   // }
+
 }

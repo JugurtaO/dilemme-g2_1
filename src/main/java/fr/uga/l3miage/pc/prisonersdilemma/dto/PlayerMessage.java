@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PlayerMessage {
-    private String type;
+    private String Messagetype;
     private int gameId;
     private String playerName;
     private String content;
