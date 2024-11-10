@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
  class GradualStrategyTest {
-    private final Strategy strategy = new GradualStrategy();
+    private final Strategy strategy = StrategyFactory.getStrategyInstance(16);
 
     @Test
      void playWhenOpponentNeverBetrayAsPlayer1() {

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
  class AdaptativeStrategyTest {
-    private final Strategy strategy=new AdaptativStrategy();
+    private final Strategy strategy=StrategyFactory.getStrategyInstance(15);
     @Test
     void playTurn5() {
         //given

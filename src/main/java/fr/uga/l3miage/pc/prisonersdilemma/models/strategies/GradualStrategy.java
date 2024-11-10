@@ -5,7 +5,6 @@ import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.List;
 
 public class GradualStrategy implements Strategy {
     private final Deque<Boolean> playLeft = new ArrayDeque<>();
