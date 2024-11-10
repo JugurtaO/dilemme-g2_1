@@ -1,8 +1,13 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class History {
     private List<Tour> tours = new ArrayList<>();
 
