@@ -1,6 +1,5 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
-import java.util.Random;
 
 public class StrategyFactory {
 

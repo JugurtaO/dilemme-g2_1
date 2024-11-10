@@ -17,36 +17,10 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    /**
-     * Registers the "/ws" endpoint, allowing clients to connect to the WebSocket message broker.
-     *
-     * @param registry the registry for registering STOMP endpoints
-     */
-//    @Override
-//    public void registerStompEndpoints(StompEndpointRegistry registry) {
-//        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
-//    }
-
-    /**
-     * Configures the message broker to use destination prefixes to filter messages.
-     * All messages that start with "/app" are routed to the message-handling methods,
-     * while messages that start with "/queue", "/topic", or "/user" are routed to the message broker.
-     * The message broker broadcasts messages to subscribed clients that are connected to the broker.
-     *
-     * @param registry the registry for configuring the message broker
-     */
-//    @Override
-//    public void configureMessageBroker(MessageBrokerRegistry registry) {
-//        registry.setApplicationDestinationPrefixes("/app");
-//        registry.enableSimpleBroker("/queue", "/topic", "/user");
-//        registry.setUserDestinationPrefix("/user");
-//
-//    }
-
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic");  // Destinations pour les messages entrants
-        registry.setApplicationDestinationPrefixes("/app");  // Préfixe des destinations pour les messages sortants
+        registry.enableSimpleBroker("/topic");
+        registry.setApplicationDestinationPrefixes("/app");
         registry.setUserDestinationPrefix("/user");
     }
 

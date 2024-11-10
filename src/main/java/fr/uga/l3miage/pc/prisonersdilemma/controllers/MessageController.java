@@ -15,6 +15,8 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -25,11 +27,12 @@ import java.util.Objects;
 @Controller
 public class MessageController {
 
+    public static final String TOPIC_GAME = "/topic/game.";
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
     private final GameService gameService = new GameService();
-    
+
     @MessageMapping("/game.join")
     @SendTo("/topic/game.state")
     public GameMessage joinGame(@Payload JoinMessage message, SimpMessageHeaderAccessor headerAccessor) {
@@ -37,7 +40,7 @@ public class MessageController {
         GameMessage gameMessage = new GameMessage(game);
 
         Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("gameId", game.getGameId());
-        headerAccessor.getSessionAttributes().put("playerName", message.getPlayerName());
+        Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("playerName", message.getPlayerName());
 
 
         gameMessage.setContent(message.getPlayerName()+" a rejoint la partie.");
@@ -53,85 +56,85 @@ public class MessageController {
         if (game != null) {
             GameMessage gameMessage = new GameMessage(game);
             gameMessage.setMessageType("game.left");
-            messagingTemplate.convertAndSend("/topic/game." + game.getGameId(), gameMessage);
+            messagingTemplate.convertAndSend(TOPIC_GAME + game.getGameId(), gameMessage);
         }
     }
 
-    @MessageMapping("/game.move")
-    public void makeDecision(@Payload GameMessage message) {
-        String playerName= message.getSender();
-        String gameId = message.getGameId();
-        boolean decision = message.getDecision();
-        GameEncounter game = gameService.getGame(gameId);
-
-        if (game == null || game.isGameOver()) {
-            GameMessage errorMessage = new GameMessage();
-            errorMessage.setMessageType("error");
-            errorMessage.setContent("Game not found or is already over.");
-            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
-            return;
-        }
-
-        if (game.getGameState().equals(GameState.WAITING_FOR_PLAYER)) {
-            GameMessage errorMessage = new GameMessage();
-            errorMessage.setMessageType("error");
-            errorMessage.setContent("Game is waiting for another player to join.");
-            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
-            return;
-        }
-
-
-        /*
-        * Écrire une condition pour vérifier si les deux joueurs n'ont pas déjà fait une décision
-        * prendre celle du joueur en cours en compte
-        * */
-
-//        if (game.getTurn().equals(playerName)) {
-//            game.makeMove(player, move);
-//
-//            GameMessage gameStateMessage = new GameMessage(game);
-//            gameStateMessage.setType("game.move");
-//            this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameStateMessage);
-//
-//            if (game.isGameOver()) {
-//                GameMessage gameOverMessage = gameToMessage(game);
-//                gameOverMessage.setType("game.gameOver");
-//                this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameOverMessage);
-//                gameService.removeGame(gameId);
-//            }
-//        }
-    }
-
-//    @EventListener
-//    public void SessionDisconnectEvent(SessionDisconnectEvent event) {
-//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-//        String gameId = headerAccessor.getSessionAttributes().get("gameId").toString();
-//        String player = headerAccessor.getSessionAttributes().get("player").toString();
+//    @MessageMapping("/game.move")
+//    public void makeDecision(@Payload GameMessage message) {
+//        String playerName= message.getSender();
+//        String gameId = message.getGameId();
+//        boolean decision = message.getDecision();
 //        GameEncounter game = gameService.getGame(gameId);
-//        if (game != null) {
-//            if (game.getPlayer1().getName().equals(player)) {
-//                game.setPlayer1(null);
-//                if (game.getPlayer2() != null) {
-//                    game.setGameState(GameState.PLAYER2_WON);
-//                    game.setWinner(game.getPlayer2().getName());
-//                } else {
-//                    gameService.removeGame(gameId);
-//                }
-//            } else if (game.getPlayer2() != null && game.getPlayer2().equals(player)) {
-//                game.setPlayer2(null);
-//                if (game.getPlayer1() != null) {
-//                    game.setGameState(GameState.PLAYER1_WON);
-//                    game.setWinner(game.getPlayer1().getName());
-//                } else {
-//                    gameService.removeGame(gameId);
-//                }
-//            }
-//            GameMessage gameMessage = new GameMessage(game);
-//            gameMessage.setMessagetype("game.gameOver");
-//            messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage);
-//            gameService.removeGame(gameId);
+//
+//        if (game == null || game.isGameOver()) {
+//            GameMessage errorMessage = new GameMessage();
+//            errorMessage.setMessageType("error");
+//            errorMessage.setContent("Game not found or is already over.");
+//            this.messagingTemplate.convertAndSend(TOPIC_GAME + gameId, errorMessage);
+//            return;
 //        }
+//
+//        if (game.getGameState().equals(GameState.WAITING_FOR_PLAYER)) {
+//            GameMessage errorMessage = new GameMessage();
+//            errorMessage.setMessageType("error");
+//            errorMessage.setContent("Game is waiting for another player to join.");
+//            this.messagingTemplate.convertAndSend(TOPIC_GAME + gameId, errorMessage);
+//            return;
+//        }
+//
+//
+//        /*
+//        * Écrire une condition pour vérifier si les deux joueurs n'ont pas déjà fait une décision
+//        * prendre celle du joueur en cours en compte
+//        * */
+//
+////        if (game.getTurn().equals(playerName)) {
+////            game.makeMove(player, move);
+////
+////            GameMessage gameStateMessage = new GameMessage(game);
+////            gameStateMessage.setType("game.move");
+////            this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameStateMessage);
+////
+////            if (game.isGameOver()) {
+////                GameMessage gameOverMessage = gameToMessage(game);
+////                gameOverMessage.setType("game.gameOver");
+////                this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameOverMessage);
+////                gameService.removeGame(gameId);
+////            }
+////        }
 //    }
-
+//
+////    @EventListener
+////    public void SessionDisconnectEvent(SessionDisconnectEvent event) {
+////        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+////        String gameId = headerAccessor.getSessionAttributes().get("gameId").toString();
+////        String player = headerAccessor.getSessionAttributes().get("player").toString();
+////        GameEncounter game = gameService.getGame(gameId);
+////        if (game != null) {
+////            if (game.getPlayer1().getName().equals(player)) {
+////                game.setPlayer1(null);
+////                if (game.getPlayer2() != null) {
+////                    game.setGameState(GameState.PLAYER2_WON);
+////                    game.setWinner(game.getPlayer2().getName());
+////                } else {
+////                    gameService.removeGame(gameId);
+////                }
+////            } else if (game.getPlayer2() != null && game.getPlayer2().equals(player)) {
+////                game.setPlayer2(null);
+////                if (game.getPlayer1() != null) {
+////                    game.setGameState(GameState.PLAYER1_WON);
+////                    game.setWinner(game.getPlayer1().getName());
+////                } else {
+////                    gameService.removeGame(gameId);
+////                }
+////            }
+////            GameMessage gameMessage = new GameMessage(game);
+////            gameMessage.setMessagetype("game.gameOver");
+////            messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage);
+////            gameService.removeGame(gameId);
+////        }
+////    }
+//
 
 }

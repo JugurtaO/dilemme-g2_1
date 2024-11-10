@@ -50,9 +50,7 @@ public  class GameEncounter {
             boolean player2Decision=player2.makeDecision();
            System.out.println("# Le joueur 2 a jou�, c'est votre tour"+player1.getName()+"------");
 
-
-            Tour tour= new Tour(i,player1Decision,player2Decision);
-            history.addTour(player1Decision,player2Decision);
+           history.addTour(player1Decision,player2Decision);
             Utils.calculateScores(player1,player1Decision,player2,player2Decision);
             Utils.displayTourNumberAndScores(i,player1,player2);
         }

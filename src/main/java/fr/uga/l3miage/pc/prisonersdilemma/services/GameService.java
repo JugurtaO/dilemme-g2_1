@@ -35,16 +35,10 @@ public class GameService {
         player.setGameEncounter(game);
         game.setGameState(GameState.WAITING_FOR_PLAYER);
         games.put(game.getGameId(), game);
-        //waitingPlayers.put(playerName, game.getGameId());
+        waitingPlayers.put(playerName, game.getGameId());
         return game;
     }
 
-    /**
-     * Removes a player from their prisonners dilemma game. If the player was the only player in the game,
-     * the game is removed.
-     *
-     * @param playerName the name of the player
-     */
     public synchronized GameEncounter leaveGame(String playerName) {
         String gameId = getGameByPlayer(playerName) != null ? getGameByPlayer(playerName).getGameId() : null;
         if (gameId != null) {
