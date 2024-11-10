@@ -1,5 +1,6 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
+import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class DonnantDonnantRandomStrategy implements Strategy {
         return new DonnantDonnantStrategy();
     }
     @Override
-    public boolean play(List<Tour> history, int opponentPlayerNumber) {
+    public boolean play(History history, int opponentPlayerNumber) {
         if(history.isEmpty()){
             return true; //cooperate by default because it's the first tour of the encounter
         }

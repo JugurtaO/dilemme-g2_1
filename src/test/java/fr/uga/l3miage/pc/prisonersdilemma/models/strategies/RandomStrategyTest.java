@@ -1,25 +1,22 @@
-package fr.uga.l3miage.pc.prisonersdilemma.strategies;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
-import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.RandomStrategy;
+import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class RandomStrategyTest {
+ class RandomStrategyTest {
 
     private final RandomStrategy randomStrategy=spy(new RandomStrategy());
     private Random randomMock=mock(Random.class);
 
     @Test
-    public void cooperate(){
-        List<Tour> history = new ArrayList<>();
+     void cooperate(){
+        History history=new History();
         doReturn(randomMock).when(randomStrategy).getRandomInstance();
         when(randomMock.nextInt(2)).thenReturn(0);
 
@@ -28,8 +25,8 @@ public class RandomStrategyTest {
     }
 
     @Test
-    public void betray(){
-        List<Tour> history = new ArrayList<>();
+     void betray(){
+        History history=new History();
         doReturn(randomMock).when(randomStrategy).getRandomInstance();
         when(randomMock.nextInt(2)).thenReturn(1);
 

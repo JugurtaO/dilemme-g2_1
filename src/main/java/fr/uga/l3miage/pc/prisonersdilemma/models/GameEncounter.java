@@ -20,7 +20,7 @@ public  class GameEncounter {
     private GameState gameState;
     private String winner;
 
-    private List<Tour> history;
+    private History history;
 
 
 
@@ -28,13 +28,13 @@ public  class GameEncounter {
         this.nbTours=n;
         this.player1=p1;
         this.player2=p2;
-        this.history=new ArrayList<>();
+        this.history=new History();
 
     }
 
 
 
-    public List<Tour> getHistory(){
+    public History getHistory(){
         return history;
     }
 
@@ -46,22 +46,17 @@ public  class GameEncounter {
 
         for (int i = 1; i <=nbTours ; i++) {
             System.out.println("******** TOUR "+i+" *********");
-
            if(!player1.getAiMode()){
                Utils.playerLeaveGameHandler(player1);
            }
             boolean player1Decision=player1.makeDecision();
             System.out.println("# Le joueur 1 a jou�, c'est votre tour"+player2.getName()+" ------");
-
             if(!player2.getAiMode()){
                 Utils.playerLeaveGameHandler(player2);
             }
             boolean player2Decision=player2.makeDecision();
            System.out.println("# Le joueur 2 a jou�, c'est votre tour"+player1.getName()+"------");
-
-
-            Tour tour= new Tour(i,player1Decision,player2Decision);
-            history.add(tour);
+            history.addTour(player1Decision,player2Decision);
             Utils.calculateScores(player1,player1Decision,player2,player2Decision);
             Utils.displayTourNumberAndScores(i,player1,player2);
         }

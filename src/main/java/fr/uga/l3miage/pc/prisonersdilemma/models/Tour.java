@@ -11,6 +11,8 @@ public class Tour {
         this.player2Decision = decision2;
     }
 
+    public  int getTourNumber(){return tourNumber;}
+
     public boolean getPlayer1Decision() {
         return player1Decision;
     }

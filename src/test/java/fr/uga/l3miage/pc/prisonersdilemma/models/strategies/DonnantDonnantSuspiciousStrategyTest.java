@@ -1,25 +1,20 @@
-package fr.uga.l3miage.pc.prisonersdilemma.strategies;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
+import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import org.junit.jupiter.api.Test;
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.Strategy;
-import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.DonnantDonnantSuspiciousStrategy;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DonnantDonnantSuspiciousStrategyTest {
+ class DonnantDonnantSuspiciousStrategyTest {
     private final Strategy strategy = new DonnantDonnantSuspiciousStrategy();
 
     @Test
-    public void playAsPlayer1() {
+     void playAsPlayer1() {
         // given
         int opponentPlayerNumber = 2;
-        Tour tour1 = new Tour(1, true, false);
-        List<Tour> history = new ArrayList<>();
-        history.add(tour1);
+        History history=new History();
+        history.addTour(true,false);
         // when
         boolean decision = strategy.play(history, opponentPlayerNumber);
         // then
@@ -27,16 +22,12 @@ public class DonnantDonnantSuspiciousStrategyTest {
     }
 
     @Test
-    public void playAsPlayer2() {
+     void playAsPlayer2() {
         // given
         int opponentPlayerNumber = 1;
-        Tour tour1 = new Tour(1, true, false);
-        Tour tour2 = new Tour(2, true, false);
-
-        List<Tour> history = new ArrayList<>();
-        history.add(tour1);
-        history.add(tour2);
-
+        History history=new History();
+        history.addTour(true,false);
+        history.addTour(true,false);
         // when
         boolean decision = strategy.play(history, opponentPlayerNumber);
         // then
@@ -44,10 +35,10 @@ public class DonnantDonnantSuspiciousStrategyTest {
     }
 
     @Test
-    public void playFirstTurn() {
+     void playFirstTurn() {
         // given
         int opponentPlayerNumber = 2;
-        List<Tour> history = new ArrayList<>();
+        History history=new History();
         // when
         boolean decision = strategy.play(history, opponentPlayerNumber);
         // then
