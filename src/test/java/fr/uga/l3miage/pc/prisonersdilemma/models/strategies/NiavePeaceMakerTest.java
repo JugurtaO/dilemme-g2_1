@@ -1,63 +1,51 @@
-package fr.uga.l3miage.pc.prisonersdilemma.strategies;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
-import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.DonnantDonnantStrategy;
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.NaivePeaceMakerStrategy;
+import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class NiavePeaceMakerTest {
+ class NiavePeaceMakerTest {
 
     private final NaivePeaceMakerStrategy naivePeaceMakerStrategy=spy(new NaivePeaceMakerStrategy());
     private Random randomMock=mock(Random.class);
     private DonnantDonnantStrategy donnantDonnantStrategyMock=mock(DonnantDonnantStrategy.class);
 
     @Test
-    public void cooperateAsPlayer1WithSameDecisionAsPlayer2(){
-        List<Tour> history = new ArrayList<>();
-
+     void cooperateAsPlayer1WithSameDecisionAsPlayer2(){
+        History history=new History();
         doReturn(randomMock).when(naivePeaceMakerStrategy).getRandomInstance();
         doReturn(donnantDonnantStrategyMock).when(naivePeaceMakerStrategy).getDonnantDonnantInstance();
 
         when(randomMock.nextInt(5)).thenReturn(1);
-        when(donnantDonnantStrategyMock.play(anyList(),anyInt())).thenReturn(true);
+        when(donnantDonnantStrategyMock.play(any(),anyInt())).thenReturn(true);
 
         boolean result=naivePeaceMakerStrategy.play(history,2);
 
         assertTrue(result);
     }
     @Test
-    public void betrayAsPlayer1WithSameDecisionAsPlayer2(){
-        List<Tour> history = new ArrayList<>();
-
+     void betrayAsPlayer1WithSameDecisionAsPlayer2(){
+        History history=new History();
         doReturn(randomMock).when(naivePeaceMakerStrategy).getRandomInstance();
         doReturn(donnantDonnantStrategyMock).when(naivePeaceMakerStrategy).getDonnantDonnantInstance();
-
         when(randomMock.nextInt(5)).thenReturn(1);
-        when(donnantDonnantStrategyMock.play(anyList(),anyInt())).thenReturn(false);
-
+        when(donnantDonnantStrategyMock.play(any(),anyInt())).thenReturn(false);
         boolean result=naivePeaceMakerStrategy.play(history,2);
         assertFalse(result);
     }
 
 
     @Test
-    public void cooperateSometimesAsPlayer1(){
-        List<Tour> history = new ArrayList<>();
-
+     void cooperateSometimesAsPlayer1(){
+        History history=new History();
         doReturn(randomMock).when(naivePeaceMakerStrategy).getRandomInstance();
-
         when(randomMock.nextInt(5)).thenReturn(4);
-
         boolean result=naivePeaceMakerStrategy.play(history,2);
-
         assertTrue(result);
     }
 

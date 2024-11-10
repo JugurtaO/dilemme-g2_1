@@ -1,40 +1,35 @@
-package fr.uga.l3miage.pc.prisonersdilemma.strategies;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
-import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.TruePeaceMakerStrategy;
+import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class TruePeaceMakerTest {
+ class TruePeaceMakerTest {
 
     private final TruePeaceMakerStrategy truePeaceMakerStrategy = spy(new TruePeaceMakerStrategy());
     private Random randomMock = mock(Random.class);
 
 
     @Test
-    public void cooperateWhenHistorySizeLessThan2() {
-        List<Tour> history = new ArrayList<>();
-        history.add(new Tour(1, true, false));
-
+     void cooperateWhenHistorySizeLessThan2() {
+        History history=new History();
+        history.addTour( true, false);
         boolean result = truePeaceMakerStrategy.play(history, 2);
         assertTrue(result);
 
     }
 
     @Test
-    public void cooperate1() {
-        List<Tour> history = new ArrayList<>();
-        history.add(new Tour(1, true, false));
-        history.add(new Tour(2, false, true));
-        history.add(new Tour(3, true, false));
-
+     void cooperate1() {
+        History history=new History();
+        history.addTour( true, false);
+        history.addTour( false, true);
+        history.addTour( true, false);
         boolean result = truePeaceMakerStrategy.play(history, 2);
 
         assertTrue(result);
@@ -42,11 +37,11 @@ public class TruePeaceMakerTest {
     }
 
     @Test
-    public void cooperate2() {
-        List<Tour> history = new ArrayList<>();
-        history.add(new Tour(1, true, true));
-        history.add(new Tour(2, false, false));
-        history.add(new Tour(3, true, false));
+     void cooperate2() {
+        History history=new History();
+        history.addTour( true, false);
+        history.addTour( false, false);
+        history.addTour( true, false);
 
         doReturn(randomMock).when(truePeaceMakerStrategy).getRandomInstance();
         when(randomMock.nextInt(3)).thenReturn(2);
@@ -57,11 +52,11 @@ public class TruePeaceMakerTest {
     }
 
     @Test
-    public void betray() {
-        List<Tour> history = new ArrayList<>();
-        history.add(new Tour(1, true, true));
-        history.add(new Tour(2, false, false));
-        history.add(new Tour(3, true, false));
+     void betray() {
+        History history=new History();
+        history.addTour( true, false);
+        history.addTour( false, false);
+        history.addTour( true, false);
 
         doReturn(randomMock).when(truePeaceMakerStrategy).getRandomInstance();
         when(randomMock.nextInt(3)).thenReturn(1);

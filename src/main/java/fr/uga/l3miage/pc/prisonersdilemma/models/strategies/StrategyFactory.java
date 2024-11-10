@@ -1,31 +1,21 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
+import java.util.Random;
+
 public class StrategyFactory {
 
     public static Strategy getStrategyInstance(int n) {
-        switch (n) {
-            case 1:
-                return new DonnantDonnantStrategy();
-
-            case 2:
-                return new DonnantDonnantRandomStrategy();
-
-            case 3:
-                return new DonnantForTwoDonnantsStrategy();
-            case 4:
-                return new DonnantForTwoDonnantsRandomStrategy();
-            case 5:
-                return new NaiveSounderStrategy();
-            case 6:
-                return new RepentantSounderStrategy();
-            case 7:
-                return new NaivePeaceMakerStrategy();
-            case 8:
-                return new TruePeaceMakerStrategy();
-            case 9:
-                return new RandomStrategy();
-            default:
-                return new RandomStrategy();
-        }
+        return switch (n) {
+            case 1 -> new DonnantDonnantStrategy();
+            case 2 -> new DonnantDonnantRandomStrategy();
+            case 3 -> new DonnantForTwoDonnantsStrategy();
+            case 4 -> new DonnantForTwoDonnantsRandomStrategy();
+            case 5 -> new NaiveSounderStrategy();
+            case 6 -> new RepentantSounderStrategy();
+            case 7 -> new NaivePeaceMakerStrategy();
+            case 8 -> new TruePeaceMakerStrategy();
+            case 9 -> new RandomStrategy();
+            default -> new RandomStrategy();
+        };
     }
 }

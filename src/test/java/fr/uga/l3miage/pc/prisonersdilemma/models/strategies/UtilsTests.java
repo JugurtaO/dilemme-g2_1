@@ -1,4 +1,4 @@
-package fr.uga.l3miage.pc.prisonersdilemma.strategies;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
 import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Player;
@@ -6,7 +6,7 @@ import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -15,8 +15,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 public class UtilsTests {
 	private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 	private final PrintStream standardOut = System.out;

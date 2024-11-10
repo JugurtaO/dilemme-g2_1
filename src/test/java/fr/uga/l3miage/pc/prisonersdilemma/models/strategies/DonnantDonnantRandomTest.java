@@ -1,20 +1,16 @@
-package fr.uga.l3miage.pc.prisonersdilemma.strategies;
+package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import fr.uga.l3miage.pc.prisonersdilemma.models.History;
+import org.junit.jupiter.api.Test;
+
 import java.util.Random;
 
-
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.DonnantDonnantRandomStrategy;
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.DonnantDonnantStrategy;
-import org.mockito.Mock;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.*;
-
-public class DonnantDonnantRandomTest {
+ class DonnantDonnantRandomTest {
 
     private final DonnantDonnantRandomStrategy donnantDonnantRandomStrategy=spy(new DonnantDonnantRandomStrategy());
 
@@ -25,15 +21,15 @@ public class DonnantDonnantRandomTest {
 
     @Test
      void playEmptyHistoryOK(){
-        List<Tour> history= new ArrayList<>();
+        History history=new History();
         boolean expectedResponse=donnantDonnantRandomStrategy.play(history,1);
         assertTrue(expectedResponse);
     }
 
     @Test
     void testPlayRandomStrategyOK() {
-        List<Tour> history = new ArrayList<>();
-        history.add(new Tour(1,true,false));
+        History history=new History();
+        history.addTour(true,false);
 
         when(randomMock.nextInt(4)).thenReturn(0);
         when(randomMock.nextInt(2)).thenReturn(0);
@@ -46,8 +42,8 @@ public class DonnantDonnantRandomTest {
 
     @Test
     void testPlayRandomStrategyDefect2() {
-        List<Tour> history = new ArrayList<>();
-        history.add(new Tour(1,true,false));
+        History history=new History();
+        history.addTour(true,false);
 
         when(randomMock.nextInt(4)).thenReturn(1);  // Correspond à 2 si vous ajoutez 1
         when(randomMock.nextInt(2)).thenReturn(1);  // Correspond à 1 si vous ajoutez 1
@@ -61,8 +57,8 @@ public class DonnantDonnantRandomTest {
 
     @Test
     void testPlayRandomStrategyOK2() {
-        List<Tour> history = new ArrayList<>();
-        history.add(new Tour(1,true,false));
+        History history=new History();
+        history.addTour(true,false);
 
         when(randomMock.nextInt(4)).thenReturn(1);  // Correspond à 2 si vous ajoutez 1
         when(randomMock.nextInt(2)).thenReturn(0);  // Correspond à 1 si vous ajoutez 1
@@ -76,13 +72,13 @@ public class DonnantDonnantRandomTest {
 
     @Test
     void testPlayRandomStrategyInvokingDonnantDonnantTrue() {
-        List<Tour> history = new ArrayList<>();
-        history.add(new Tour(1,true,false));
+        History history=new History();
+        history.addTour(true,false);
 
         doReturn(randomMock).when(donnantDonnantRandomStrategy).getRandomInstance();
         doReturn(donnantDonnantStrategyMock).when(donnantDonnantRandomStrategy).getDonnantDonnantStrategy();
         when(randomMock.nextInt(4)).thenReturn(3);
-        when(donnantDonnantStrategyMock.play(anyList(),anyInt())).thenReturn(true);
+        when(donnantDonnantStrategyMock.play(any(),anyInt())).thenReturn(true);
         boolean result = donnantDonnantRandomStrategy.play(history, 1);
         assertTrue(result);
 
@@ -90,13 +86,13 @@ public class DonnantDonnantRandomTest {
 
     @Test
     void testPlayRandomStrategyInvokingDonnantDonnantFalse() {
-        List<Tour> history = new ArrayList<>();
-        history.add(new Tour(1,true,false));
+        History history=new History();
+        history.addTour(true,false);
 
         doReturn(randomMock).when(donnantDonnantRandomStrategy).getRandomInstance();
         doReturn(donnantDonnantStrategyMock).when(donnantDonnantRandomStrategy).getDonnantDonnantStrategy();
         when(randomMock.nextInt(4)).thenReturn(3);
-        when(donnantDonnantStrategyMock.play(anyList(),anyInt())).thenReturn(false);
+        when(donnantDonnantStrategyMock.play(any(),anyInt())).thenReturn(false);
         boolean result = donnantDonnantRandomStrategy.play(history, 1);
         assertFalse(result);
 
