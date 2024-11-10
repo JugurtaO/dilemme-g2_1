@@ -40,7 +40,7 @@ public class GameService {
     }
 
     /**
-     * Removes a player from their Tic-Tac-Toe game. If the player was the only player in the game,
+     * Removes a player from their prisonners dilemma game. If the player was the only player in the game,
      * the game is removed.
      *
      * @param playerName the name of the player

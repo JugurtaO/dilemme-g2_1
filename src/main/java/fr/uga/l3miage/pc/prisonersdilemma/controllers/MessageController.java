@@ -47,13 +47,6 @@ public class MessageController {
 
     }
 
-    /**
-     * Handles a request from a client to leave a Tic-Tac-Toe game.
-     * If the player is successfully removed from the game, a message is sent to subscribers
-     * of the game's topic indicating that the player has left.
-     *
-     * @param message the message from the client containing the player's name
-     */
     @MessageMapping("/game.leave")
     public void leaveGame(@Payload PlayerMessage message) {
         GameEncounter game = gameService.leaveGame(message.getPlayerName());
@@ -64,20 +57,6 @@ public class MessageController {
         }
     }
 
-    /**
-     * Handles a request from a client to make a decision in a dilema game.
-     * If the decision is valid, the game state is updated and sent to all subscribers of the game's topic.
-     * If the game is over, a message is sent indicating the result of the game.
-     *
-     * @param message the message from the client containing the player's name, game ID,
-     *     Messagetype;
-     *      playerName;
-     *       winner;
-     *       content;
-     *       decision;
-     *      gameState;
-     *      and sender
-     */
     @MessageMapping("/game.move")
     public void makeDecision(@Payload GameMessage message) {
         String playerName= message.getSender();
