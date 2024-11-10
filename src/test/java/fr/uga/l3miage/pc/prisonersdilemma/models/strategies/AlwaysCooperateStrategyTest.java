@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
  class AlwaysCooperateStrategyTest {
-    private final Strategy strategy=new AlwaysCooperateStrategy();
+    private final Strategy strategy=StrategyFactory.getStrategyInstance(11);
     @Test
      void playAsPlayer1() {
         //given

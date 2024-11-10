@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
  class AlwaysBetrayStrategyTest {
-    private final Strategy strategy=new AlwaysBetrayStrategy();
+    private final Strategy strategy=StrategyFactory.getStrategyInstance(10);
     @Test
      void playAsPlayer1() {
         //given

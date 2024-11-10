@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
  class DonnantDonnantStrategyTest {
-    private final Strategy strategy=new DonnantDonnantStrategy();
+    private final Strategy strategy=StrategyFactory.getStrategyInstance(1);
     @Test
      void playAsPlayer1() {
         //given
