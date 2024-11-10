@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
  class SweetResentfulStrategyTest {
-    private final Strategy strategy = new SweetResentfulStrategy();
+    private final Strategy strategy = StrategyFactory.getStrategyInstance(18);
 
     @Test
      void playWhenOpponentNeverBetrayAsPlayer1() {

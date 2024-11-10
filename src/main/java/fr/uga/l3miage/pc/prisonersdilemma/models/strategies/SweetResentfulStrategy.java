@@ -1,11 +1,10 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.List;
-
 import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class SweetResentfulStrategy implements Strategy {
     private final Deque<Boolean> playLeft = new ArrayDeque<>();
