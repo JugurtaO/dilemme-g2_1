@@ -3,8 +3,6 @@ import fr.uga.l3miage.pc.prisonersdilemma.GameState;
 import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -17,9 +15,7 @@ public  class GameEncounter {
     private Player player2;
     private GameState gameState;
     private String winner;
-
-    @Getter
-    private List<Tour> history;
+    private History history;
 
 
 
@@ -28,7 +24,7 @@ public  class GameEncounter {
         this.nbTours=n;
         this.player1=p1;
         this.player2=p2;
-        this.history=new ArrayList<>();
+        this.history=new History();
 
     }
 
@@ -56,7 +52,7 @@ public  class GameEncounter {
 
 
             Tour tour= new Tour(i,player1Decision,player2Decision);
-            history.add(tour);
+            history.addTour(player1Decision,player2Decision);
             Utils.calculateScores(player1,player1Decision,player2,player2Decision);
             Utils.displayTourNumberAndScores(i,player1,player2);
         }
