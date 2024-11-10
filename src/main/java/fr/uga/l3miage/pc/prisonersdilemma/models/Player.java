@@ -2,13 +2,16 @@ package fr.uga.l3miage.pc.prisonersdilemma.models;
 
 import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.*;
 import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Scanner;
 import java.util.logging.Logger;
 
 import static fr.uga.l3miage.pc.prisonersdilemma.utils.Utils.chooseStrategy;
 
-
+@Setter
+@Getter
 public class Player implements PlayerInterface {
     private final String name;
     private int score = 0;
@@ -22,10 +25,6 @@ public class Player implements PlayerInterface {
         this.gameEncounter = gameEncounter;
         this.strategy = null;
 
-    }
-
-    public void setGameEncounter(GameEncounter gameEncounter) {
-        this.gameEncounter = gameEncounter;
     }
 
     @Override
@@ -57,10 +56,6 @@ public class Player implements PlayerInterface {
 
     public void updateScore(int points) {
         this.score += points;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public boolean getAiMode() {

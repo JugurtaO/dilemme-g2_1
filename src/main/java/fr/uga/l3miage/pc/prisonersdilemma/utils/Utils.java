@@ -34,7 +34,6 @@ public class Utils {
         // System.out.println("17. Suspicious donnant donnant");
         // System.out.println("18. Sweat Resentful");
     }
-
     public static int chooseStrategy(String name) {
         Scanner scanner = new Scanner(System.in); // Create a Scanner object
         System.out.println("Player " + name + " , choose strategy number : ");
