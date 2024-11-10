@@ -1,14 +1,16 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
+import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
 import java.util.List;
 import java.util.Random;
 
 public class PavlovStrategyRandom implements Strategy{
+    Random random = new Random();
     @Override
-    public boolean play(List<Tour> history, int opponentPlayerNumber) {
-        Random random = new Random();
+    public boolean play(History history, int opponentPlayerNumber) {
+
         if (random.nextInt(10)== 1){
             return random.nextBoolean();
         }
