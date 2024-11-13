@@ -1,13 +1,16 @@
 package fr.uga.l3miage.pc.prisonersdilemma.services;
 
 
-import fr.uga.l3miage.pc.prisonersdilemma.GameState;
+import fr.uga.l3miage.pc.prisonersdilemma.enums.GameState;
 import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
+@Setter
+@Getter
 public class GameService {
 
 
@@ -39,30 +42,6 @@ public class GameService {
         return game;
     }
 
-    public synchronized GameEncounter leaveGame(String playerName) {
-        String gameId = getGameByPlayer(playerName) != null ? getGameByPlayer(playerName).getGameId() : null;
-        if (gameId != null) {
-            waitingPlayers.remove(playerName);
-            GameEncounter game = games.get(gameId);
-            if (playerName.equals(game.getPlayer1().getName())) {
-                if (game.getPlayer2() != null) {
-                    game.setPlayer1(game.getPlayer2());
-                    game.setPlayer2(null);
-                    game.setGameState(GameState.WAITING_FOR_PLAYER);
-                    waitingPlayers.put(game.getPlayer1Name(), game.getGameId());
-                } else {
-                    games.remove(gameId);
-                    return null;
-                }
-            } else if (playerName.equals(game.getPlayer2().getName())) {
-                game.setPlayer2(null);
-                game.setGameState(GameState.WAITING_FOR_PLAYER);
-                waitingPlayers.put(game.getPlayer1().getName(), game.getGameId());
-            }
-            return game;
-        }
-        return null;
-    }
 
 
     public GameEncounter getGame(String gameId) {
@@ -76,8 +55,8 @@ public class GameService {
     }
 
 
-    public void removeGame(String gameId) {
-        games.remove(gameId);
+    public GameEncounter removeGame(String gameId) {
+        return games.remove(gameId);
     }
 
 }

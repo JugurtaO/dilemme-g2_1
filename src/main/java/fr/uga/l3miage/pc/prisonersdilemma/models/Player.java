@@ -1,14 +1,9 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models;
 
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.*;
-import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.Strategy;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.StrategyFactory;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Scanner;
-import java.util.logging.Logger;
-
-import static fr.uga.l3miage.pc.prisonersdilemma.utils.Utils.chooseStrategy;
 
 @Setter
 @Getter
@@ -28,22 +23,10 @@ public class Player implements PlayerInterface {
     }
 
     @Override
-    public boolean makeDecision() {
+    public boolean makeDecision(boolean decision) {
         if (!aiMode) {
-            //Player makes decision
-            System.out.println ("make decision (True: to cooperate | False: to betray)"+ name);
-            Scanner scanner = new Scanner(System.in);  // Create a Scanner object
-            System.out.println("Enter decision : ");
-            String playerDecision = scanner.nextLine();
-            while (!playerDecision.toLowerCase().equals("true") && !playerDecision.toLowerCase().equals("false")) {
-                System.out.println("Enter a valide decision true/false : ");
-                playerDecision = scanner.nextLine();
-            }
-
-            return Boolean.parseBoolean(playerDecision);
-
+            return decision;
         } else {
-            // AI makes decision
             int opponentPlayerNumber = gameEncounter.getPlayer1Name().equals(name) ? 2 : 1;
             return strategy.play(gameEncounter.getHistory(), opponentPlayerNumber);
         }
@@ -54,20 +37,10 @@ public class Player implements PlayerInterface {
         return score;
     }
 
-    public void updateScore(int points) {
-        this.score += points;
-    }
-
-    public boolean getAiMode() {
-        return aiMode;
-    }
-
     @Override
-    public void leaveEncounter() {
+ public void leaveEncounter() {
         aiMode = true;
-        Utils.displayStrategiesMenu();
-        int strategyNumber = chooseStrategy(name);
-        strategy = StrategyFactory.getStrategyInstance(strategyNumber);
+        strategy = StrategyFactory.getStrategyInstance(19);
     }
 
 

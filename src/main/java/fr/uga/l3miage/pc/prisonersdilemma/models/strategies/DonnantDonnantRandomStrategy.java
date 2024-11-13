@@ -13,8 +13,11 @@ public class DonnantDonnantRandomStrategy implements Strategy {
     }
     @Override
     public boolean play(History history, int opponentPlayerNumber) {
-        if(history.isEmpty()){
-            return true; }
+        return history.isEmpty() || getRandomInstanceAndDonnantDonnantStrategy(history, opponentPlayerNumber);
+
+    }
+
+    private boolean getRandomInstanceAndDonnantDonnantStrategy(History history, int opponentPlayerNumber){
         int k= getRandomInstance().nextInt(4)+1;
         if(k!=2){
             return getDonnantDonnantStrategy().play(history,opponentPlayerNumber);

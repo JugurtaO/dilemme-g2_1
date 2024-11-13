@@ -6,13 +6,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-/**
- * Configuration class for setting up WebSocket messaging in the application.
- * <p>
- * Enables the use of STOMP (Simple Text Oriented Messaging Protocol) for sending messages between clients and servers.
- *
- * @author Jugurta
- */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {

@@ -11,16 +11,13 @@ public class Tour {
         this.player2Decision = decision2;
     }
 
-    public  int getTourNumber(){return tourNumber;}
-
+public int getTourNumber() {return this.tourNumber;}
     public boolean getPlayer1Decision() {
         return player1Decision;
     }
-
     public boolean getPlayer2Decision() {
         return player2Decision;
     }
-
     public int getPlayerScore(int idPlayer) {
 
         if (player1Decision && !player2Decision) {
@@ -29,7 +26,7 @@ public class Tour {
         if (!player1Decision && player2Decision) {
             return idPlayer == 1 ? 5 : 0;
         }
-        if (player1Decision && player2Decision) {
+        if (player1Decision) {
             return 3;
         }
         return 1;
