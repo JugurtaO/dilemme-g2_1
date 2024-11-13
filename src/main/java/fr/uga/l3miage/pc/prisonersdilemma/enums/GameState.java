@@ -1,5 +1,8 @@
-package fr.uga.l3miage.pc.prisonersdilemma;
+package fr.uga.l3miage.pc.prisonersdilemma.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum GameState {
     WAITING_FOR_PLAYER("Waiting for player."),
     PLAYER1_WON("Player 1 won."),
@@ -8,17 +11,10 @@ public enum GameState {
     GAME_FINISHED("Game finished."),
     TIE("Tie.");
 
-    String description;
+    final String description;
 
     GameState(String description) {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

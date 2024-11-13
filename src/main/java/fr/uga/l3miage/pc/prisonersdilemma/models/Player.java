@@ -1,14 +1,11 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models;
 
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.*;
-import fr.uga.l3miage.pc.prisonersdilemma.utils.Utils;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.Strategy;
+import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.StrategyFactory;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Scanner;
-import java.util.logging.Logger;
-
-import static fr.uga.l3miage.pc.prisonersdilemma.utils.Utils.chooseStrategy;
 
 @Setter
 @Getter
@@ -62,12 +59,10 @@ public class Player implements PlayerInterface {
         return aiMode;
     }
 
-    @Override
-    public void leaveEncounter() {
+   @Override
+ public void leaveEncounter() {
         aiMode = true;
-        Utils.displayStrategiesMenu();
-        int strategyNumber = chooseStrategy(name);
-        strategy = StrategyFactory.getStrategyInstance(strategyNumber);
+        strategy = StrategyFactory.getStrategyInstance(19);
     }
 
 

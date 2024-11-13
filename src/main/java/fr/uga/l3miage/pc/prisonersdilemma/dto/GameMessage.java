@@ -1,6 +1,6 @@
 package fr.uga.l3miage.pc.prisonersdilemma.dto;
 
-import fr.uga.l3miage.pc.prisonersdilemma.GameState;
+import fr.uga.l3miage.pc.prisonersdilemma.enums.GameState;
 import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
 import lombok.Getter;
 import lombok.Setter;
