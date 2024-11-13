@@ -68,11 +68,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
     }
     @Test
     void getGameByPlayerNotFound(){
-        Player p1=new Player("Samuel",null);
-        GameEncounter gameEncounter1=new GameEncounter(5,p1,null);
-        gameEncounter1.setGameState(GameState.WAITING_FOR_PLAYER);
-        p1.setGameEncounter(gameEncounter1);
-        this.gameService.getGames().put(gameEncounter1.getGameId(), gameEncounter1);
 
         GameEncounter response= this.gameService.getGameByPlayer("Julien");
         assertThat(response).isNull();
