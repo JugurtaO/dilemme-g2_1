@@ -11,9 +11,10 @@ public class GradualStrategy implements Strategy {
 
     @Override
     public boolean play(History history, int opponentPlayerNumber) {
-        if (history.isEmpty()) {
-            return true;
-        }
+        return history.isEmpty() || isPlayLeft(history, opponentPlayerNumber);
+
+    }
+    public boolean isPlayLeft(History history, int opponentPlayerNumber) {
         if (!playLeft.isEmpty()) {
             return playLeft.pop();
         }
@@ -33,4 +34,5 @@ public class GradualStrategy implements Strategy {
         }
 
     }
+
 }

@@ -6,9 +6,11 @@ import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 public class DonnantDonnantSuspiciousStrategy implements Strategy{
     @Override
     public boolean play(History history, int opponentPlayerNumber) {
-        if(history.isEmpty()){
-            return false;
-        }
+        return !history.isEmpty() && getLastTourDecision(history, opponentPlayerNumber);
+
+    }
+
+    private boolean getLastTourDecision(History history, int opponentPlayerNumber){
         Tour lastTour=history.getLastTour();
         return opponentPlayerNumber==1 ? lastTour.getPlayer1Decision():lastTour.getPlayer2Decision() ;
     }

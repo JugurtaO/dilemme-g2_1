@@ -98,4 +98,30 @@ import static org.mockito.Mockito.*;
 
     }
 
+    @Test
+     void getRandomInstanceAndDonnantDonnantStrategyFalse(){
+        History history=new History();
+        history.addTour(true,false);
+
+        doReturn(randomMock).when(donnantDonnantRandomStrategy).getRandomInstance();
+        doReturn(donnantDonnantStrategyMock).when(donnantDonnantRandomStrategy).getDonnantDonnantStrategy();
+        when(randomMock.nextInt(4)).thenReturn(3);
+        when(donnantDonnantStrategyMock.play(any(),anyInt())).thenReturn(false);
+        boolean result = donnantDonnantRandomStrategy.play(history, 1);
+        assertFalse(result);
+    }
+    @Test
+     void getRandomInstanceAndDonnantDonnantTrue(){
+        History history=new History();
+        history.addTour(true,false);
+
+        doReturn(randomMock).when(donnantDonnantRandomStrategy).getRandomInstance();
+        doReturn(donnantDonnantStrategyMock).when(donnantDonnantRandomStrategy).getDonnantDonnantStrategy();
+        when(randomMock.nextInt(4)).thenReturn(3);
+        when(donnantDonnantStrategyMock.play(any(),anyInt())).thenReturn(true);
+        boolean result = donnantDonnantRandomStrategy.play(history, 1);
+        assertTrue(result);
+    }
+
+
 }

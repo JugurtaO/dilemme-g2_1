@@ -9,9 +9,13 @@ public class DonnantForTwoDonnantsStrategy implements Strategy {
 
     @Override
     public boolean play(History history, int opponentPlayerNumber) {
-        if (history.isEmpty() || history.size() < 2) {
-            return true;
-        }
+        return (history.isEmpty() || history.size() < 2)  || getDonnantDecision(history, opponentPlayerNumber);
+
+
+
+    }
+
+    private boolean getDonnantDecision(History history, int opponentPlayerNumber) {
         List<Tour> lastTwoTours = history.getLastTours(2);
         if (opponentPlayerNumber == 1 &&
                 lastTwoTours.get(1).getPlayer1Decision() == lastTwoTours.get(0).getPlayer1Decision()) {

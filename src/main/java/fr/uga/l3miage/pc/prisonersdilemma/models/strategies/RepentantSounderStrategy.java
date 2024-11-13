@@ -11,9 +11,11 @@ public class RepentantSounderStrategy implements Strategy {
 
     @Override
     public boolean play(History history, int opponentPlayerNumber) {
-        if (history.isEmpty()) {
-            return true;
-        }
+        return history.isEmpty() || getRepentantDecision(history, opponentPlayerNumber);
+
+
+    }
+    private boolean getRepentantDecision(History history, int opponentPlayerNumber) {
         Tour lastTour = history.getLastTour();
         boolean opponentDecision = opponentPlayerNumber == 1 ? lastTour.getPlayer1Decision() : lastTour.getPlayer2Decision();
 
@@ -34,7 +36,6 @@ public class RepentantSounderStrategy implements Strategy {
             isThereAnyTestToCheck = true;
             return false;
         }
-
 
     }
 
