@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Setter
 @Getter
-public  class GameEncounter {
+public class GameEncounter {
     private String gameId;
     private int nbTours;
     private Player player1;

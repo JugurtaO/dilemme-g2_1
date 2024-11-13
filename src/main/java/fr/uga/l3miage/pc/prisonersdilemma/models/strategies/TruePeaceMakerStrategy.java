@@ -11,10 +11,12 @@ public class TruePeaceMakerStrategy implements Strategy{
 
     @Override
     public boolean play(History history, int opponentPlayerNumber) {
-        if (history.isEmpty() || history.size() < 2) {
-            return true;
-        }
-        List<Tour> lastTwoTours = history.getLastTours(2);
+        return (history.isEmpty() || history.size() < 2) || getTruePeaceMakerDecision(history, opponentPlayerNumber);
+
+
+    }
+
+    private  boolean getTruePeaceMakerDecision(History history, int opponentPlayerNumber) {List<Tour> lastTwoTours = history.getLastTours(2);
         if ((opponentPlayerNumber == 1 &&
                 lastTwoTours.get(1).getPlayer1Decision() != lastTwoTours.get(0).getPlayer1Decision()) ||
                 (opponentPlayerNumber == 2 &&
@@ -23,8 +25,6 @@ public class TruePeaceMakerStrategy implements Strategy{
         } else {
             int k = getRandomInstance().nextInt(3) + 1;
             return k == 3;
-        }
-    }
-
+        }}
     public Random getRandomInstance(){return new Random();}
 }

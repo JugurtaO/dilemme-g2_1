@@ -10,10 +10,10 @@ public class SweetResentfulStrategy implements Strategy {
     private final Deque<Boolean> playLeft = new ArrayDeque<>();
 
     @Override
-    public boolean play(History history, int opponentPlayerNumber) {
-        if (history.isEmpty()) {
-            return true;
+    public boolean play(History history, int opponentPlayerNumber) {return history.isEmpty() || getSweetresentfulDecicion(history, opponentPlayerNumber);
         }
+
+    private boolean getSweetresentfulDecicion(History history, int opponentPlayerNumber) {
         if (!playLeft.isEmpty()) {
             return playLeft.pop();
         }
@@ -32,4 +32,6 @@ public class SweetResentfulStrategy implements Strategy {
         }
 
     }
+
+
 }
