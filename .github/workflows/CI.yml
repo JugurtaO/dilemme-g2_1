@@ -103,6 +103,7 @@ jobs:
       - name: Deploy to VM
         uses: appleboy/ssh-action@v1.0.0
         with:
+          timeout: 120
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USERNAME }}
           password: ${{ secrets.VM_PASSWORD }}
