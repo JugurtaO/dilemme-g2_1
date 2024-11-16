@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .  # Ceci utilise le Dockerfile local au lieu de pull depuis GHCR
+    container_name: prisonerDilemma-app-local
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

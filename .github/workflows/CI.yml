@@ -1,42 +1,110 @@
-name: Verify code
-run-name: Verify code in branch [${{ github.ref }}] by @${{ github.actor }}
+name: CI/CD Pipeline
+run-name: CI/CD Pipeline in branch [${{ github.ref }}] by @${{ github.actor }}
 
 on:
+  # Pour les pull requests vers main ou dev
   pull_request:
-    branches: [ "main", "dev"]
+    branches: [ "main", "dev" ]
+  # Pour les push sur main ou dev
   push:
     branches:
       - "main"
       - "dev"
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   build-and-verify:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up JDK 17 ⚙️
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin' # Use 'temurin', 'zulu', etc., as per your requirement
+          distribution: 'temurin'
 
-
-
-      # Step 3: Cache Maven dependencies to speed up the build
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-               ${{ runner.os }}-maven-
+            ${{ runner.os }}-maven-
 
-      # Step 4: Build and run tests using Maven
       - name: Build with Maven 🛠️
         run: mvn -B package --file pom.xml
 
-      # Step 5: Run unit tests
       - name: Run tests 🧪
         run: mvn test
 
+      # Étapes Docker - uniquement pour main
+      - name: Login to GitHub Container Registry
+        if: github.base_ref == 'main' || github.ref == 'refs/heads/main'
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract metadata for Docker
+        if: github.base_ref == 'main' || github.ref == 'refs/heads/main'
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,format=long
+            type=raw,value=latest
+
+      - name: Build and push Docker image
+        if: github.base_ref == 'main' || github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: build-and-verify
+    if: github.base_ref == 'main' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Prepare docker-compose file
+        run: |
+          mkdir -p deploy
+          envsubst < docker-compose.yml > deploy/docker-compose.yml
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Copy deployment files to VM
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          password: ${{ secrets.VM_PASSWORD }}
+          source: "deploy/docker-compose-prod.yml"
+          target: "~/app"
+          strip_components: 1
+
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          password: ${{ secrets.VM_PASSWORD }}
+          script: |
+            cd ~/app
+            docker login ${{ env.REGISTRY }} -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            docker compose down || true
+            docker compose up -d
