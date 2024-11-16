@@ -92,7 +92,7 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USERNAME }}
           password: ${{ secrets.VM_PASSWORD }}
-          source: "deploy/docker-compose-prod.yml"
+          source: "./deploy/docker-compose-prod.yml"
           target: "~/app"
           strip_components: 1
 
