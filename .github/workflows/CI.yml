@@ -74,7 +74,7 @@ jobs:
 
   deploy:
     needs: build-and-verify
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Only deploy on push to main
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'  #Only deploy on push to main
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -103,6 +103,7 @@ jobs:
       - name: Deploy to VM
         uses: appleboy/ssh-action@v1.0.0
         with:
+          timeout: 120
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USERNAME }}
           password: ${{ secrets.VM_PASSWORD }}
