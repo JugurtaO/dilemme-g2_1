@@ -74,7 +74,7 @@ jobs:
 
   deploy:
     needs: build-and-verify
-    if: github.base_ref == 'main' || github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Only deploy on push to main
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -83,6 +83,8 @@ jobs:
         run: |
           mkdir -p deploy
           envsubst < docker-compose-prod.yml > deploy/docker-compose-prod.yml
+          ls -la deploy/  
+          cat deploy/docker-compose-prod.yml
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
 
@@ -95,6 +97,7 @@ jobs:
           source: "./deploy/docker-compose-prod.yml"
           target: "~/app"
           strip_components: 1
+          debug: true
 
 
       - name: Deploy to VM
