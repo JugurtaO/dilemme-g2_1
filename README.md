@@ -27,6 +27,6 @@ L'application est une Single Page Application:
 
 ### To run the app locally with docker
 ```angular2html
-1.sudo docker compose -f docker-compose-dev.yml down -v
+1.docker compose -f docker-compose-dev.yml down -v
 2.docker compose -f docker-compose-dev.yml up -d 
 ```
