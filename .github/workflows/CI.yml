@@ -74,7 +74,7 @@ jobs:
 
   deploy:
     needs: build-and-verify
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Only deploy on push to main
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'  #Only deploy on push to main
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
