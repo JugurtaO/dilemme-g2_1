@@ -96,6 +96,7 @@ jobs:
           target: "~/app"
           strip_components: 1
 
+
       - name: Deploy to VM
         uses: appleboy/ssh-action@v1.0.0
         with:
