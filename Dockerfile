@@ -5,7 +5,7 @@ FROM maven:3.9.0-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copier le fichier pom.xml et télécharger les dépendances
-COPY pom.xml .
+COPY  pom.xml .
 
 # Télécharger les dépendances sans builder le projet (cela permet d'optimiser la construction en cache)
 RUN mvn dependency:go-offline
