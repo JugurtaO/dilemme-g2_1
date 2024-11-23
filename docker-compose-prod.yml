@@ -1,7 +1,7 @@
 services:
   app:
-    image: ghcr.io/${GITHUB_REPOSITORY}:latest
+    image: ghcr.io/jugurtao/dilemme-g2_1:latest
     container_name: prisonerDilemma-app
     ports:
-      - "8080:8080"
+      - "80:8080"
     restart: unless-stopped
