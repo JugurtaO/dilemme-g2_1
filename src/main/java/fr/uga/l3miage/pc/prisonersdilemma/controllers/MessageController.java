@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Objects;
 
@@ -23,6 +24,12 @@ public class MessageController {
     private SimpMessagingTemplate messagingTemplate;
 
     private final GameService gameService = new GameService();
+
+    @GetMapping("/home")
+    public String home() {
+        System.out.println("******** psssss *********");
+        return "home is beautiful";
+    }
 
     @MessageMapping("/game.join")
     @SendTo("/topic/game.state")
