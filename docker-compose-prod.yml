@@ -3,5 +3,10 @@ services:
     image: ghcr.io/jugurtao/dilemme-g2_1:latest
     container_name: prisonerDilemma-app
     ports:
-      - "80:8080"
+      - "8080:8080"
+    networks:
+      - shared-network
     restart: unless-stopped
+networks:
+  shared-network:
+    external: true

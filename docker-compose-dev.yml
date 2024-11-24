@@ -4,4 +4,9 @@ services:
     container_name: prisonerDilemma-app-local
     ports:
       - "8080:8080"
+    networks:
+      - shared-network
     restart: unless-stopped
+networks:
+  shared-network:
+    external: true
