@@ -7,6 +7,4 @@ services:
     networks:
       - shared-network
     restart: unless-stopped
-networks:
-  shared-network:
-    external: true
+
