@@ -50,6 +50,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+
       - name: Extract metadata for Docker
         if: github.base_ref == 'main' || github.ref == 'refs/heads/main'
         id: meta
