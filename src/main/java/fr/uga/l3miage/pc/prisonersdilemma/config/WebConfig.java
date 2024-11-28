@@ -10,7 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4000","http://localhost:4200","http://localhost:80")  // Replace with your specific frontend domain in production
+                .allowedOrigins("http://localhost:80","http://15.188.52.15:80",          // Catch-all for Docker networks
+                        "http://0.0.0.0:80")  // Replace with your specific frontend domain in production
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
