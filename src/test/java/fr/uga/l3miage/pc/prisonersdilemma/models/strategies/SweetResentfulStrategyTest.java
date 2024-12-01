@@ -1,78 +1,79 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
+import fr.uga.l3miage.pc.prisonersdilemma.enums.PlayerRole;
 import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
- class SweetResentfulStrategyTest {
+class SweetResentfulStrategyTest {
     private final Strategy strategy = StrategyFactory.getStrategyInstance(18);
 
     @Test
-     void playWhenOpponentNeverBetrayAsPlayer1() {
+    void playWhenOpponentNeverBetrayAsPlayer1() {
         // given
-        int opponentPlayerNumber = 2;
-        History history=new History();
-        history.addTour(true,true);
-        history.addTour(true,true);
-        history.addTour(true,true);
+        PlayerRole playerRole = PlayerRole.J2;
+        History history = new History();
+        history.addTour(true, true);
+        history.addTour(true, true);
+        history.addTour(true, true);
         // when
-        boolean decision = strategy.play(history, opponentPlayerNumber);
+        boolean decision = strategy.play(history, playerRole);
         // then
         assertTrue(decision);
     }
 
     @Test
-     void playWhenOpponentNeverBetrayAsPlayer2() {
+    void playWhenOpponentNeverBetrayAsPlayer2() {
         // given
-        int opponentPlayerNumber = 2;
-        History history=new History();
-        history.addTour(true,true);
-        history.addTour(true,true);
-        history.addTour(true,true);
+        PlayerRole playerRole = PlayerRole.J2;
+        History history = new History();
+        history.addTour(true, true);
+        history.addTour(true, true);
+        history.addTour(true, true);
         // when
-        boolean decision = strategy.play(history, opponentPlayerNumber);
+        boolean decision = strategy.play(history, playerRole);
         // then
         assertTrue(decision);
     }
 
     @Test
-     void playWhenOpponentBetray() {
+    void playWhenOpponentBetray() {
         // given
-        int opponentPlayerNumber = 1;
-        History history=new History();
-        history.addTour(true,true);
-        history.addTour(true,true);
-        history.addTour(false,true);
+        PlayerRole playerRole = PlayerRole.J2;
+        History history = new History();
+        history.addTour(true, true);
+        history.addTour(true, true);
+        history.addTour(false, true);
         // when
-        boolean decision = strategy.play(history, opponentPlayerNumber);
+        boolean decision = strategy.play(history, playerRole);
         // then
         assertFalse(decision);
-        history.addTour(false,false);
-        decision = strategy.play(history, opponentPlayerNumber);
+        history.addTour(false, false);
+        decision = strategy.play(history, playerRole);
         assertFalse(decision);
-        history.addTour(true,false);
-        decision = strategy.play(history, opponentPlayerNumber);
+        history.addTour(true, false);
+        decision = strategy.play(history, playerRole);
         assertFalse(decision);
-        history.addTour(false,false);
-        decision = strategy.play(history, opponentPlayerNumber);
+        history.addTour(false, false);
+        decision = strategy.play(history, playerRole);
         assertFalse(decision);
-        history.addTour(false,false);
-        decision = strategy.play(history, opponentPlayerNumber);
+        history.addTour(false, false);
+        decision = strategy.play(history, playerRole);
         assertTrue(decision);
-        history.addTour(false,false);
-        decision = strategy.play(history, opponentPlayerNumber);
+        history.addTour(false, false);
+        decision = strategy.play(history, playerRole);
         assertTrue(decision);
     }
 
     @Test
-     void playFirstTurn() {
+    void playFirstTurn() {
         // given
-        int opponentPlayerNumber = 1;
-        History history=new History();
+        PlayerRole playerRole = PlayerRole.J1;
+        History history = new History();
         // when
-        boolean decision = strategy.play(history, opponentPlayerNumber);
+        boolean decision = strategy.play(history, playerRole);
         // then
         assertTrue(decision);
     }

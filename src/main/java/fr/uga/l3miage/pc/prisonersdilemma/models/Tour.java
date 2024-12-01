@@ -1,6 +1,10 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models;
 
+import fr.uga.l3miage.pc.prisonersdilemma.enums.PlayerRole;
+import lombok.Getter;
+
 public class Tour {
+    @Getter
     private final int tourNumber;
     private final boolean player1Decision;
     private final boolean player2Decision;
@@ -11,22 +15,19 @@ public class Tour {
         this.player2Decision = decision2;
     }
 
-public int getTourNumber() {return this.tourNumber;}
-    public boolean getPlayer1Decision() {
-        return player1Decision;
+    public boolean getPlayerDecision(PlayerRole playerRole){
+        return playerRole==PlayerRole.J1?player1Decision:player2Decision;
     }
-    public boolean getPlayer2Decision() {
-        return player2Decision;
-    }
-    public int getPlayerScore(int idPlayer) {
-
-        if (player1Decision && !player2Decision) {
-            return idPlayer == 2 ? 5 : 0;
+    public int getPlayerScore(PlayerRole playerRole) {
+        boolean playerDecision=getPlayerDecision(playerRole);
+        boolean opponentDecision=getPlayerDecision(playerRole.opponent());
+        if (playerDecision && !opponentDecision) {
+            return 0;
         }
-        if (!player1Decision && player2Decision) {
-            return idPlayer == 1 ? 5 : 0;
+        if (!playerDecision && opponentDecision) {
+            return 5;
         }
-        if (player1Decision) {
+        if (playerDecision) {
             return 3;
         }
         return 1;
