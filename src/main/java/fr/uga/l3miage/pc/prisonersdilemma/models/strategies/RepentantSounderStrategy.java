@@ -1,5 +1,6 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
+import fr.uga.l3miage.pc.prisonersdilemma.enums.PlayerRole;
 import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
@@ -10,14 +11,14 @@ public class RepentantSounderStrategy implements Strategy {
     private boolean isThereAnyTestToCheck = false;
 
     @Override
-    public boolean play(History history, int opponentPlayerNumber) {
-        return history.isEmpty() || getRepentantDecision(history, opponentPlayerNumber);
+    public boolean play(History history, PlayerRole playerRole) {
+        return history.isEmpty() || getRepentantDecision(history, playerRole);
 
 
     }
-    private boolean getRepentantDecision(History history, int opponentPlayerNumber) {
+    private boolean getRepentantDecision(History history, PlayerRole playerRole) {
         Tour lastTour = history.getLastTour();
-        boolean opponentDecision = opponentPlayerNumber == 1 ? lastTour.getPlayer1Decision() : lastTour.getPlayer2Decision();
+        boolean opponentDecision = lastTour.getPlayerDecision(playerRole.opponent());
 
         if (isThereAnyTestToCheck) {
             isThereAnyTestToCheck = false;

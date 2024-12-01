@@ -1,5 +1,6 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
+import fr.uga.l3miage.pc.prisonersdilemma.enums.PlayerRole;
 import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
@@ -10,16 +11,15 @@ public class SweetResentfulStrategy implements Strategy {
     private final Deque<Boolean> playLeft = new ArrayDeque<>();
 
     @Override
-    public boolean play(History history, int opponentPlayerNumber) {return history.isEmpty() || getSweetresentfulDecicion(history, opponentPlayerNumber);
+    public boolean play(History history, PlayerRole playerRole) {return history.isEmpty() || getSweetresentfulDecicion(history, playerRole);
         }
 
-    private boolean getSweetresentfulDecicion(History history, int opponentPlayerNumber) {
+    private boolean getSweetresentfulDecicion(History history, PlayerRole playerRole) {
         if (!playLeft.isEmpty()) {
             return playLeft.pop();
         }
         Tour lastTour = history.getLastTour();
-        boolean opponentDecision = opponentPlayerNumber == 1 ? lastTour.getPlayer1Decision()
-                : lastTour.getPlayer2Decision();
+        boolean opponentDecision = lastTour.getPlayerDecision(playerRole.opponent());
         if (opponentDecision) {
             return true;
         } else {

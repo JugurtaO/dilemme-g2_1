@@ -1,5 +1,6 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.strategies;
 
+import fr.uga.l3miage.pc.prisonersdilemma.enums.PlayerRole;
 import fr.uga.l3miage.pc.prisonersdilemma.models.History;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
@@ -7,28 +8,24 @@ import java.util.List;
 import java.util.Random;
 
 public class DonnantForTwoDonnantsRandomStrategy implements Strategy {
-
     public Random getRandomInstance() {
         return new Random();
     }
+    public DonnantForTwoDonnantsStrategy getDonnantForTwoDonnantStrategy(){
+        return new DonnantForTwoDonnantsStrategy();
+    }
     @Override
-    public boolean play(History history, int opponentPlayerNumber) {
-        if (history.size() < 2) {
-            return true;
-        }
+    public boolean play(History history, PlayerRole playerRole) {
+        return history.isEmpty()|| history.size()<2 || getRandomInstanceAndDonnantForTwoDonnantStrategy(history, playerRole);
 
-        List<Tour> lastTwoTours = history.getLastTours(2);
+    }
 
-        if (opponentPlayerNumber == 1 &&
-                lastTwoTours.get(1).getPlayer1Decision() == lastTwoTours.get(0).getPlayer1Decision()) {
-            return lastTwoTours.get(1).getPlayer1Decision();
+    private boolean getRandomInstanceAndDonnantForTwoDonnantStrategy(History history, PlayerRole playerRole){
+        int k= getRandomInstance().nextInt(4)+1;
+        if(k!=2){
+            return getDonnantForTwoDonnantStrategy().play(history,playerRole);
         }
-        if (opponentPlayerNumber == 2 &&
-                lastTwoTours.get(1).getPlayer2Decision() == lastTwoTours.get(0).getPlayer2Decision()) {
-            return lastTwoTours.get(1).getPlayer2Decision();
-        }
-
-        int k = getRandomInstance().nextInt(5) + 1;
-        return k == 1 || k == 5;
+        k=getRandomInstance().nextInt(2)+1;
+        return k == 1;
     }
 }
