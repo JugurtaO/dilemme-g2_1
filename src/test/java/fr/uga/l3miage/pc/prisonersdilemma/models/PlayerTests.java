@@ -1,5 +1,6 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models;
 
+import fr.uga.l3miage.pc.prisonersdilemma.enums.PlayerRole;
 import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.DonnantForTwoDonnantsRandomStrategy;
 import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.Strategy;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class PlayerTests {
         player.setStrategy(strategyMock);
         GameEncounter gameEncounter=new GameEncounter(5,player,null);
         player.setGameEncounter(gameEncounter);
-        when(strategyMock.play(new History(),1)).thenReturn(false);
+        when(strategyMock.play(new History(), PlayerRole.J1)).thenReturn(false);
         boolean response=player.makeDecision(true);
         assertFalse(response);
     }

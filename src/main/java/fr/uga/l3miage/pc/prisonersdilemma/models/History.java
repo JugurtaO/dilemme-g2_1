@@ -1,5 +1,6 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models;
 
+import fr.uga.l3miage.pc.prisonersdilemma.enums.PlayerRole;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,21 +38,21 @@ public class History {
         }
         return lastTours;
     }
-    public boolean playerHasBetray(int player){
-        return tours.stream().noneMatch(tour -> player==1? !tour.getPlayer1Decision() : !tour.getPlayer2Decision());
+    public boolean playerHasBetray(PlayerRole playerRole){
+        return tours.stream().noneMatch(tour -> !tour.getPlayerDecision(playerRole));
     }
-    public List<Tour> getCooperateToursOf(int player){
-        return tours.stream().filter(tour -> player==1?tour.getPlayer1Decision():tour.getPlayer2Decision()).toList();
-    }
-
-    public List<Tour> getBetrayToursOf(int player){
-        return tours.stream().filter(tour -> player==1? !tour.getPlayer1Decision():!tour.getPlayer2Decision()).toList();
+    public List<Tour> getCooperateToursOf(PlayerRole playerRole){
+        return tours.stream().filter(tour -> tour.getPlayerDecision(playerRole)).toList();
     }
 
-    public double getAverageBetrayScore(int player) {
-        List<Tour> betrayTurns = this.getBetrayToursOf(player);
+    public List<Tour> getBetrayToursOf(PlayerRole playerRole){
+        return tours.stream().filter(tour->!tour.getPlayerDecision(playerRole)).toList();
+    }
+
+    public double getAverageBetrayScore(PlayerRole playerRole) {
+        List<Tour> betrayTurns = this.getBetrayToursOf(playerRole);
         int sum = betrayTurns.stream()
-                .mapToInt(tour -> tour.getPlayerScore(player))
+                .mapToInt(tour -> tour.getPlayerScore(playerRole))
                 .sum(); // Somme des scores
         double average = 0;
         if (!betrayTurns.isEmpty()) {
@@ -60,10 +61,10 @@ public class History {
         return average;
     }
 
-    public double getAverageCooperateScore(int player) {
-        List<Tour> cooperateTurns = this.getCooperateToursOf(player);
+    public double getAverageCooperateScore(PlayerRole playerRole) {
+        List<Tour> cooperateTurns = this.getCooperateToursOf(playerRole);
         int sum = cooperateTurns.stream()
-                .mapToInt(tour -> tour.getPlayerScore(player))
+                .mapToInt(tour -> tour.getPlayerScore(playerRole))
                 .sum(); // Somme des scores
         double average = 0;
         if (!cooperateTurns.isEmpty()) {
