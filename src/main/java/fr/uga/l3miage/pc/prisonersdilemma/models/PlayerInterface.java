@@ -4,7 +4,7 @@ package fr.uga.l3miage.pc.prisonersdilemma.models;
 
 public interface PlayerInterface {
 
-    boolean makeDecision(boolean decision);
+    boolean getDecision(boolean decision);
 
     int getScore();
 

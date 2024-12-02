@@ -23,7 +23,7 @@ public class Player implements PlayerInterface {
     }
 
     @Override
-    public boolean makeDecision(boolean decision) {
+    public boolean getDecision(boolean decision) {
         if (!aiMode) {
             return decision;
         } else {
@@ -38,10 +38,12 @@ public class Player implements PlayerInterface {
     }
 
     @Override
- public void leaveEncounter() {
+    public void leaveEncounter() {
         aiMode = true;
         strategy = StrategyFactory.getStrategyInstance(19);
     }
+
+
 
 
 }

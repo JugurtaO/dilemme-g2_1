@@ -73,5 +73,10 @@ public class History {
         return average;
     }
 
+    public Tour getTourByTourNumber(int tourNumber) {
+        if(tours.isEmpty()) return null;
+        return tours.stream().filter(tour-> tour.getTourNumber() == tourNumber).findFirst().orElse(null);
+    }
+
 
 }

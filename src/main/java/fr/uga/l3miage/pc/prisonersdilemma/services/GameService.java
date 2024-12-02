@@ -42,6 +42,37 @@ public class GameService {
         return game;
     }
 
+//    public synchronized Tour makeDecision(String gameId,String playerName,boolean playerDecision){
+//        GameEncounter game = getGame(gameId);
+//        if (game.isGameOver()) {
+//            GameMessage errorMessage = new GameMessage("game.error",gameId,gameId,null,null,"Game not found or is already over.",null,game.getGameState(),null,game.getNbTours(),0);
+//            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
+//            return;
+//        }
+//
+//        if (game.getGameState().equals(GameState.WAITING_FOR_PLAYER)) {
+//            GameMessage errorMessage = new GameMessage("game.error",gameId,gameId,null,null,"Game is waiting for another player to join.",null,game.getGameState(),null,game.getNbTours(),0);
+//            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
+//            return;
+//        }
+//
+//
+//        if (game.getTurn().equals(player)) {
+//            game.makeMove(player, move);
+//
+//            TicTacToeMessage gameStateMessage = new TicTacToeMessage(game);
+//            gameStateMessage.setType("game.move");
+//            this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameStateMessage);
+//
+//            if (game.isGameOver()) {
+//                TicTacToeMessage gameOverMessage = gameToMessage(game);
+//                gameOverMessage.setType("game.gameOver");
+//                this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameOverMessage);
+//                ticTacToeManager.removeGame(gameId);
+//            }
+//        }
+//    }
+
 
 
     public GameEncounter getGame(String gameId) {

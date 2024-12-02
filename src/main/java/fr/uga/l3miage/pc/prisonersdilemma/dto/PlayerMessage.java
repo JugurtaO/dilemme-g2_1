@@ -1,13 +1,9 @@
 package fr.uga.l3miage.pc.prisonersdilemma.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+public record PlayerMessage (
+     String messagetype,
+     String gameId,
+     String playerName,
+     Boolean decision
 
-@Setter
-@Getter
-public class PlayerMessage {
-    private String messagetype;
-    private int gameId;
-    private String playerName;
-    private String content;
-}
+){}

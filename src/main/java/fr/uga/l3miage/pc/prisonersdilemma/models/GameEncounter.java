@@ -12,6 +12,7 @@ import java.util.UUID;
 public class GameEncounter {
     private String gameId;
     private int nbTours;
+    private int currentTourNumber;
     private Player player1;
     private Player player2;
     private GameState gameState;
@@ -30,12 +31,19 @@ public class GameEncounter {
     }
 
 
+
     public String getPlayer1Name(){
         return player1.getName();
+    }
+    public String getPlayer2Name(){
+        return player2.getName();
     }
 
     public boolean isGameOver(){
         return winner!=null;
+    }
+    public Tour getTourByTourNumber(int tourNumber) {
+        return history.getTourByTourNumber(tourNumber);
     }
 
 
