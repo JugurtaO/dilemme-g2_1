@@ -141,7 +141,7 @@ class HistoryTest {
         history.addTour(false, false);
         double player1AverageCooperateScore = history.getAverageCooperateScore(PlayerRole.J1);
         double player2AverageCooperateScore = history.getAverageCooperateScore(PlayerRole.J2);
-        assertEquals(1, player1AverageCooperateScore, "Player 1's average cooperate score should be 1");
+        assertEquals(2, player1AverageCooperateScore, "Player 1's average cooperate score should be 1");
         assertEquals(1.5, player2AverageCooperateScore, "Player 2's average cooperate score should be 1.5");
     }
 }

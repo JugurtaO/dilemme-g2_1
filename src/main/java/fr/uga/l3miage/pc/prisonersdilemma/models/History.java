@@ -12,11 +12,11 @@ import java.util.List;
 public class History {
     private List<Tour> tours = new ArrayList<>();
 
-    public  void addTour(boolean player1Decision,boolean player2Decision){
+    public  void addTour(Boolean player1Decision, Boolean player2Decision){
         tours.add(new Tour(tours.size()+1,player1Decision,player2Decision));
     }
 
-    public Boolean isEmpty(){
+    public boolean isEmpty(){
         return tours.isEmpty();
     }
 

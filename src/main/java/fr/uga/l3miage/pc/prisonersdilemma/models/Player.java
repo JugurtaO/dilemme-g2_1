@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 public class Player implements PlayerInterface {
     private final String name;
+    private PlayerRole role;
     private int score = 0;
     private Strategy strategy;
     private boolean aiMode = false;
@@ -23,7 +24,7 @@ public class Player implements PlayerInterface {
     }
 
     @Override
-    public boolean getDecision(boolean decision) {
+    public boolean makeDecision(boolean decision) {
         if (!aiMode) {
             return decision;
         } else {

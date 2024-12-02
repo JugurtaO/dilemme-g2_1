@@ -39,8 +39,11 @@ public class GameEncounter {
         return player2.getName();
     }
 
+
+
+
     public boolean isGameOver(){
-        return winner!=null;
+        return winner!=null || gameState==GameState.GAME_FINISHED;
     }
     public Tour getTourByTourNumber(int tourNumber) {
         return history.getTourByTourNumber(tourNumber);

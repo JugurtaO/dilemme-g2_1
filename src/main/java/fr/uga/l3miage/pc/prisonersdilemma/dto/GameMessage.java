@@ -9,9 +9,7 @@ public record GameMessage(
         String playerName2,
         String winner,
         String content,
-        Boolean decision,
         GameState gameState,
-        String sender,
         int nbTours,
         int currentTourNumber
 ) {
