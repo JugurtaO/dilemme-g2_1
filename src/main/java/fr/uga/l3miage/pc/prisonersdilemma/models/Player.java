@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 public class Player implements PlayerInterface {
     private final String name;
+    private PlayerRole role;
     private int score = 0;
     private Strategy strategy;
     private boolean aiMode = false;
@@ -38,10 +39,12 @@ public class Player implements PlayerInterface {
     }
 
     @Override
- public void leaveEncounter() {
+    public void leaveEncounter() {
         aiMode = true;
         strategy = StrategyFactory.getStrategyInstance(19);
     }
+
+
 
 
 }

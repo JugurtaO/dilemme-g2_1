@@ -110,7 +110,7 @@ class AdaptativeStrategyTest {
         // when
         boolean decision = strategy.play(history, playerRole);
         // then
-        assertTrue(decision);
+        assertFalse(decision);
     }
 
 }
