@@ -76,7 +76,7 @@ public class MessageController {
 
         }
 
-        GameMessage gameMessage= gameService.makeDecision(game,player,decision);
+        GameMessage gameMessage= gameService.makeDecision(game,player,player.makeDecision(decision));
         this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage);
 
         if (game.isGameOver()) {
