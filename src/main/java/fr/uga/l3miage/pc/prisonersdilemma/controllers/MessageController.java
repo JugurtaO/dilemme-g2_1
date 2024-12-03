@@ -42,7 +42,10 @@ public class MessageController {
                 message.playerName()+" a rejoint la partie.",
                 game.getGameState(),
                 game.getNbTours(),
-                game.getCurrentTourNumber()
+                game.getCurrentTourNumber(),
+                game.getHistory().getAllTours(),
+                game.getPlayer1()!=null ? game.getPlayer1().getScore():0,
+                game.getPlayer2()!=null ? game.getPlayer2().getScore():0
                 );
 
     }
@@ -65,12 +68,12 @@ public class MessageController {
         Player player = message.playerName().equals(game.getPlayer1Name()) ? game.getPlayer1() : game.getPlayer2();
 
         if (game.isGameOver()) {
-            GameMessage errorMessage = new GameMessage("game.error",gameId,gameId,null,null,"Game not found or is already over.",game.getGameState(),game.getNbTours(),game.getCurrentTourNumber());
+            GameMessage errorMessage = new GameMessage("game.error",gameId,gameId,null,null,"Game not found or is already over.",game.getGameState(),game.getNbTours(),game.getCurrentTourNumber(),game.getHistory().getAllTours(),game.getPlayer1().getScore(),game.getPlayer2().getScore());
             this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
             return;
         }
         if (game.getGameState().equals(GameState.WAITING_FOR_PLAYER)) {
-            GameMessage errorMessage = new GameMessage("game.error",gameId,gameId,null,null,"Game is waiting for another player to join.",game.getGameState(),game.getNbTours(),game.getCurrentTourNumber());
+            GameMessage errorMessage = new GameMessage("game.error",gameId,gameId,null,null,"Game is waiting for another player to join.",game.getGameState(),game.getNbTours(),game.getCurrentTourNumber(),game.getHistory().getAllTours(),game.getPlayer1().getScore(),game.getPlayer2().getScore());
             this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
             return;
 
@@ -80,7 +83,7 @@ public class MessageController {
         this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage);
 
         if (game.isGameOver()) {
-            GameMessage gameMessage2=new GameMessage("game.gameOver",game.getGameId(),game.getPlayer1Name(),game.getPlayer2Name(),game.getWinner(),"La partie est terminée !",game.getGameState(),game.getNbTours(),game.getCurrentTourNumber());
+            GameMessage gameMessage2=new GameMessage("game.gameOver",game.getGameId(),game.getPlayer1Name(),game.getPlayer2Name(),game.getWinner(),"La partie est terminée !",game.getGameState(),game.getNbTours(),game.getCurrentTourNumber(),game.getHistory().getAllTours(),game.getPlayer1().getScore(),game.getPlayer2().getScore());
                 this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage2);
                 gameService.removeGame(gameId);
 

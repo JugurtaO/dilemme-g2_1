@@ -1,6 +1,9 @@
 package fr.uga.l3miage.pc.prisonersdilemma.dto;
 
 import fr.uga.l3miage.pc.prisonersdilemma.enums.GameState;
+import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
+
+import java.util.List;
 
 public record GameMessage(
         String messageType,
@@ -11,7 +14,10 @@ public record GameMessage(
         String content,
         GameState gameState,
         int nbTours,
-        int currentTourNumber
+        int currentTourNumber,
+        List<Tour> history,
+        int score1,
+        int score2
 ) {
 
 }
