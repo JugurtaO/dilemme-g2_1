@@ -28,7 +28,7 @@ class WaitingPlayersStateBehaviourTests {
         // then
         assertNotNull(gameEncounter.getPlayer1());
         assertEquals(playerName, gameEncounter.getPlayer1().getName());
-        assertEquals("game.join", result.messageType());
+        assertEquals("game.joined", result.messageType());
         assertEquals(playerName + " has joined the game", result.content());
     }
 
@@ -44,7 +44,7 @@ class WaitingPlayersStateBehaviourTests {
         // then
         assertNotNull(gameEncounter.getPlayer2());
         assertEquals(playerName, gameEncounter.getPlayer2().getName());
-        assertEquals("game.join", result.messageType());
+        assertEquals("game.joined", result.messageType());
         assertEquals(playerName + " has joined the game", result.content());
     }
 
@@ -76,7 +76,7 @@ class WaitingPlayersStateBehaviourTests {
         // then
         assertTrue(gameEncounter.getPlayer1().isAiMode());
         assertNotNull(gameEncounter.getPlayer1().getStrategy());
-        assertEquals("game.leave", result.messageType());
+        assertEquals("game.left", result.messageType());
         assertEquals(playerName + " has left the game", result.content());
     }
 
@@ -94,7 +94,7 @@ class WaitingPlayersStateBehaviourTests {
         // then
         assertTrue(gameEncounter.getPlayer2().isAiMode());
         assertNotNull(gameEncounter.getPlayer2().getStrategy());
-        assertEquals("game.leave", result.messageType());
+        assertEquals("game.left", result.messageType());
         assertEquals(playerName + " has left the game", result.content());
     }
 

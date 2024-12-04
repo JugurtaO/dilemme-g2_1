@@ -1,8 +1,10 @@
 package fr.uga.l3miage.pc.prisonersdilemma.models.services;
 
+import fr.uga.l3miage.pc.prisonersdilemma.dto.GameMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.enums.GameState;
 import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Player;
+import fr.uga.l3miage.pc.prisonersdilemma.models.WaitingPlayersStateBehaviour;
 import fr.uga.l3miage.pc.prisonersdilemma.services.GameService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,19 +24,21 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
     @Test
      void joinNewGameOK(){
-        GameEncounter response= gameService.joinGame("Jugurta");
-        assertThat(response.getGameState()).isEqualTo(GameState.WAITING_FOR_PLAYER);
-        assertThat(response.getPlayer1().getName()).isEqualTo("Jugurta");
+        GameMessage response= gameService.joinGame("Jugurta");
+        assertThat(response.gameState()).isEqualTo(GameState.WAITING_FOR_PLAYER);
+        assertThat(response.playerName1()).isEqualTo("Jugurta");
     }
     @Test
     void joinExistingGameOK() {
         Player p1=new Player("Samuel",null);
         GameEncounter gameEncounter=new GameEncounter(5,p1,null);
+        gameEncounter.setGameState(GameState.WAITING_FOR_PLAYER);
+        gameEncounter.setGameStateBehaviour(new WaitingPlayersStateBehaviour());
         p1.setGameEncounter(gameEncounter);
         this.gameService.getGames().put(gameEncounter.getGameId(), gameEncounter);
-        GameEncounter response= gameService.joinGame("Tom");
-        assertThat(response.getGameState()).isEqualTo(GameState.GAME_IN_PROGRESS);
-        assertThat(response.getPlayer2().getName()).isEqualTo("Tom");
+        GameMessage response= gameService.joinGame("Tom");
+        assertThat(response.gameState()).isEqualTo(GameState.GAME_IN_PROGRESS);
+        assertThat(response.playerName2()).isEqualTo("Tom");
     }
 
     @Test void getGameByIdOK(){
