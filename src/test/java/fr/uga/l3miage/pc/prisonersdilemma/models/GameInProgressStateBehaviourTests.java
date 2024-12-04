@@ -43,7 +43,7 @@ class GameInProgressStateBehaviourTests {
         // then
         assertTrue(gameEncounter.getPlayer1().isAiMode());
         assertNotNull(gameEncounter.getPlayer1().getStrategy());
-        assertEquals("game.leave", result.messageType());
+        assertEquals("game.left", result.messageType());
     }
 
     @Test
@@ -59,7 +59,7 @@ class GameInProgressStateBehaviourTests {
         // then
         assertTrue(gameEncounter.getPlayer2().isAiMode());
         assertNotNull(gameEncounter.getPlayer2().getStrategy());
-        assertEquals("game.leave", result.messageType());
+        assertEquals("game.left", result.messageType());
     }
 
     @Test
