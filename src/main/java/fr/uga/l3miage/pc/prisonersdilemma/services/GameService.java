@@ -19,7 +19,7 @@ public class GameService {
 
 
     public static final String A_JOUE = " a joué !";
-    public static final String MESSAGE_TYPE = "game.decision";
+    public static final String GAME_DECISION = "game.decision";
     private final Map<String, GameEncounter> games;
 
 
@@ -54,10 +54,10 @@ public class GameService {
         if (currentTour == null) { //on crée le tour
             if (currentPlayer.getRole() == PlayerRole.J1) {
                 currentGame.getHistory().addTour(playerDecision, null);
-                gameMessage = new GameMessage(MESSAGE_TYPE, currentGame.getGameId(), currentGame.getPlayer1Name(), currentGame.getPlayer2Name(), currentGame.getWinner(), currentPlayer.getName() + A_JOUE, currentGame.getGameState(), currentGame.getNbTours(), currentGame.getCurrentTourNumber(),null,currentGame.getPlayer1().getScore(),currentGame.getPlayer2().getScore());
+                gameMessage = new GameMessage(GAME_DECISION, currentGame.getGameId(), currentGame.getPlayer1Name(), currentGame.getPlayer2Name(), currentGame.getWinner(), currentPlayer.getName() + A_JOUE, currentGame.getGameState(), currentGame.getNbTours(), currentGame.getCurrentTourNumber(),null,currentGame.getPlayer1().getScore(),currentGame.getPlayer2().getScore());
             } else {
                 currentGame.getHistory().addTour(null, playerDecision);
-                gameMessage = new GameMessage(MESSAGE_TYPE, currentGame.getGameId(), currentGame.getPlayer1Name(), currentGame.getPlayer2Name(), currentGame.getWinner(), currentPlayer.getName() + A_JOUE, currentGame.getGameState(), currentGame.getNbTours(), currentGame.getCurrentTourNumber(),null,currentGame.getPlayer1().getScore(),currentGame.getPlayer2().getScore());
+                gameMessage = new GameMessage(GAME_DECISION, currentGame.getGameId(), currentGame.getPlayer1Name(), currentGame.getPlayer2Name(), currentGame.getWinner(), currentPlayer.getName() + A_JOUE, currentGame.getGameState(), currentGame.getNbTours(), currentGame.getCurrentTourNumber(),null,currentGame.getPlayer1().getScore(),currentGame.getPlayer2().getScore());
             }
 
         } else { // le tour existe c'est à dire quelqu'un a déjà joué -> vérifier sile joueur rente de jouer si c'est le cas ne rien fair eou l'informer
@@ -66,11 +66,11 @@ public class GameService {
             } else {
                 if (currentPlayer.getRole() == PlayerRole.J1) {
                     currentTour.setPlayer1Decision(playerDecision);
-                    gameMessage = new GameMessage(MESSAGE_TYPE, currentGame.getGameId(), currentGame.getPlayer1Name(), currentGame.getPlayer2Name(), currentGame.getWinner(), currentPlayer.getName() + A_JOUE, currentGame.getGameState(), currentGame.getNbTours(), currentGame.getCurrentTourNumber(),currentGame.getHistory().getAllTours(),currentGame.getPlayer1().getScore(),currentGame.getPlayer2().getScore());
+                    gameMessage = new GameMessage(GAME_DECISION, currentGame.getGameId(), currentGame.getPlayer1Name(), currentGame.getPlayer2Name(), currentGame.getWinner(), currentPlayer.getName() + A_JOUE, currentGame.getGameState(), currentGame.getNbTours(), currentGame.getCurrentTourNumber(),currentGame.getHistory().getAllTours(),currentGame.getPlayer1().getScore(),currentGame.getPlayer2().getScore());
 
                 } else {
                     currentTour.setPlayer2Decision(playerDecision);
-                    gameMessage = new GameMessage(MESSAGE_TYPE, currentGame.getGameId(), currentGame.getPlayer1Name(), currentGame.getPlayer2Name(), currentGame.getWinner(), currentPlayer.getName() + A_JOUE, currentGame.getGameState(), currentGame.getNbTours(), currentGame.getCurrentTourNumber(),currentGame.getHistory().getAllTours(),currentGame.getPlayer1().getScore(),currentGame.getPlayer2().getScore());
+                    gameMessage = new GameMessage(GAME_DECISION, currentGame.getGameId(), currentGame.getPlayer1Name(), currentGame.getPlayer2Name(), currentGame.getWinner(), currentPlayer.getName() + A_JOUE, currentGame.getGameState(), currentGame.getNbTours(), currentGame.getCurrentTourNumber(),currentGame.getHistory().getAllTours(),currentGame.getPlayer1().getScore(),currentGame.getPlayer2().getScore());
 
                 }
                 //Calculer le score des 2 joueurs car ils ont joué tous les 2
