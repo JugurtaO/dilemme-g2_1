@@ -8,6 +8,7 @@ import fr.uga.l3miage.pc.prisonersdilemma.enums.GameState;
 import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Player;
 import fr.uga.l3miage.pc.prisonersdilemma.services.GameService;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -21,7 +22,7 @@ import java.util.Objects;
 @Controller
 public class MessageController {
 
-    public static final String TOPIC_GAME = "/topic/game.";
+    public static final String TOPIC_GAME1 = "/topic/game.";
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
@@ -50,18 +51,9 @@ public class MessageController {
 
     }
 
-    /**
-     * Handles a request from a client to make a decision.
-     * If the Decision is valid, the game state is updated and sent to all subscribers of the game's topic.
-     * If the Game is over, a message is sent indicating the result of the game.
-     *
-     * @param message the message from the client containing the player's name, game ID, and decision
-     */
+
     @MessageMapping("/game.decision")
-    public void makePlayerDecision(@Payload PlayerMessage message) {
-        if(message==null){
-            System.out.println("payload is null");
-        }
+    public void makePlayerDecision(@Payload @NonNull PlayerMessage message) {
         String gameId = message.gameId();
         boolean decision = message.decision();
         GameEncounter game = gameService.getGame(gameId);
@@ -69,22 +61,22 @@ public class MessageController {
 
         if (game.isGameOver()) {
             GameMessage errorMessage = new GameMessage("game.error",gameId,gameId,null,null,"Game not found or is already over.",game.getGameState(),game.getNbTours(),game.getCurrentTourNumber(),game.getHistory().getAllTours(),game.getPlayer1().getScore(),game.getPlayer2().getScore());
-            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
+            this.messagingTemplate.convertAndSend(TOPIC_GAME1 + gameId, errorMessage);
             return;
         }
         if (game.getGameState().equals(GameState.WAITING_FOR_PLAYER)) {
             GameMessage errorMessage = new GameMessage("game.error",gameId,gameId,null,null,"Game is waiting for another player to join.",game.getGameState(),game.getNbTours(),game.getCurrentTourNumber(),game.getHistory().getAllTours(),game.getPlayer1().getScore(),game.getPlayer2().getScore());
-            this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
+            this.messagingTemplate.convertAndSend(TOPIC_GAME1 + gameId, errorMessage);
             return;
 
         }
 
         GameMessage gameMessage= gameService.makeDecision(game,player,player.makeDecision(decision));
-        this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage);
+        this.messagingTemplate.convertAndSend(TOPIC_GAME1 + gameId, gameMessage);
 
         if (game.isGameOver()) {
             GameMessage gameMessage2=new GameMessage("game.gameOver",game.getGameId(),game.getPlayer1Name(),game.getPlayer2Name(),game.getWinner(),"La partie est terminée !",game.getGameState(),game.getNbTours(),game.getCurrentTourNumber(),game.getHistory().getAllTours(),game.getPlayer1().getScore(),game.getPlayer2().getScore());
-                this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage2);
+                this.messagingTemplate.convertAndSend(TOPIC_GAME1 + gameId, gameMessage2);
                 gameService.removeGame(gameId);
 
 
