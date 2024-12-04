@@ -18,7 +18,7 @@ public class DonnantForTwoDonnantsStrategy implements Strategy {
 
     private boolean getDonnantDecision(History history, PlayerRole playerRole) {
         List<Tour> lastTwoTours = history.getLastTours(2);
-        if(lastTwoTours.get(0).getPlayerDecision(playerRole.opponent())==lastTwoTours.get(1).getPlayerDecision(playerRole.opponent())){
+        if(lastTwoTours.get(0).getPlayerDecision(playerRole.opponent()).equals(lastTwoTours.get(1).getPlayerDecision(playerRole.opponent()))){
             return lastTwoTours.get(1).getPlayerDecision(playerRole.opponent());
         }
         else return !lastTwoTours.get(1).getPlayerDecision(playerRole.opponent());
