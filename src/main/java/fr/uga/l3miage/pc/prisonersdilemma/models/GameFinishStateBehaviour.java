@@ -5,7 +5,6 @@ import fr.uga.l3miage.pc.prisonersdilemma.dto.GameMessage;
 import java.util.Random;
 
 public class GameFinishStateBehaviour implements GameStateBehaviour {
-    Random random=new Random();
 
     @Override
     public GameMessage joinGame(GameEncounter gameEncounter, String playerName) {

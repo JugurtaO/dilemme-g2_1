@@ -25,12 +25,12 @@ public class WaitingPlayersStateBehaviour implements GameStateBehaviour {
 
     @Override
     public GameMessage leaveGame(GameEncounter gameEncounter, String playerName) {
-        if(Objects.equals(gameEncounter.getPlayer1().getName(), playerName)){
+        if(Objects.equals(gameEncounter.getPlayer1Name(), playerName)){
             gameEncounter.getPlayer1().setAiMode(true);
             gameEncounter.getPlayer1().setStrategy(StrategyFactory.getStrategyInstance(this.random.nextInt(18)));
             return new GameMessage("game.leave",gameEncounter,playerName+" has left the game");
         }
-        if(Objects.equals(gameEncounter.getPlayer2().getName(), playerName)){
+        if(Objects.equals(gameEncounter.getPlayer2Name(), playerName)){
             gameEncounter.getPlayer2().setAiMode(true);
             gameEncounter.getPlayer2().setStrategy(StrategyFactory.getStrategyInstance(this.random.nextInt(18)));
             return new GameMessage("game.leave",gameEncounter,playerName+" has left the game");

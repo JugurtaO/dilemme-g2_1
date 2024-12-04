@@ -5,7 +5,6 @@ import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Tour;
 
 import java.util.List;
-
 public record GameMessage(
         String messageType,
         String gameId,
@@ -21,6 +20,6 @@ public record GameMessage(
         int score2
 ) {
 public GameMessage(String messageType,GameEncounter game,String content){
-    this(messageType,game.getGameId(),game.getPlayer1Name(),game.getPlayer2Name(),game.getWinner(),content,game.getGameState(),game.getNbTours(),game.getCurrentTourNumber(),game.getHistory().getAllTours(),game.getPlayer1().getScore(),game.getPlayer2().getScore());
+    this(messageType,game.getGameId(),game.getPlayer1Name(),game.getPlayer2Name(),game.getWinner(),content,game.getGameState(),game.getNbTours(),game.getCurrentTourNumber(),game.getHistory().getAllTours(),game.getPlayer1Score(),game.getPlayer2Score());
 }
 }

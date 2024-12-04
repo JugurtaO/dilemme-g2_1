@@ -2,6 +2,7 @@ package fr.uga.l3miage.pc.prisonersdilemma.models;
 
 import fr.uga.l3miage.pc.prisonersdilemma.dto.GameMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.enums.GameState;
+import fr.uga.l3miage.pc.prisonersdilemma.enums.PlayerRole;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,10 +37,24 @@ public class GameEncounter implements GameStateBehaviour {
 
 
     public String getPlayer1Name(){
-        return player1.getName();
+        return player1==null?null:player1.getName();
     }
     public String getPlayer2Name(){
-        return player2.getName();
+        return player2==null?null:player2.getName();
+    }
+    public int getPlayer1Score(){
+        return player1==null?-1:player1.getScore();
+    }
+    public int getPlayer2Score(){
+        return player2==null?-1:player2.getScore();
+    }
+    public void setPlayer1( Player player){
+        this.player1=player;
+        player.setRole(PlayerRole.J1);
+    }
+    public void setPlayer2( Player player){
+        this.player2=player;
+        player.setRole(PlayerRole.J2);
     }
 
 
