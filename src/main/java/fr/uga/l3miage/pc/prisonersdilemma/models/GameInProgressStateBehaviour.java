@@ -12,6 +12,7 @@
         public static final String GAME_ERROR = "game.error";
         public static final String GAME_LEFT = "game.left";
         public static final String GAME_DECISION = "game.decision";
+        public static final String A_JOUE = " a joué !";
         Random random=new Random();
 
         @Override
@@ -45,10 +46,10 @@
             if (currentTour == null) { //on crée le tour
                 if (currentPlayer.getRole() == PlayerRole.J1) {
                     gameEncounter.getHistory().addTour(playerDecision, null);
-                    gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + " a joué !");
+                    gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + A_JOUE);
                 } else {
                     gameEncounter.getHistory().addTour(null, playerDecision);
-                    gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + " a joué !");
+                    gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + A_JOUE);
                 }
 
             } else { // le tour existe c'est à dire quelqu'un a déjà joué -> vérifier sile joueur rente de jouer si c'est le cas ne rien fair eou l'informer
@@ -57,10 +58,10 @@
                 } else {
                     if (currentPlayer.getRole() == PlayerRole.J1) {
                         currentTour.setPlayer1Decision(playerDecision);
-                        gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + " a joué !");
+                        gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + A_JOUE);
                     } else {
                         currentTour.setPlayer2Decision(playerDecision);
-                        gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + " a joué !");
+                        gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + A_JOUE);
 
                     }
                     //Calculer le score des 2 joueurs car ils ont joué tous les 2
