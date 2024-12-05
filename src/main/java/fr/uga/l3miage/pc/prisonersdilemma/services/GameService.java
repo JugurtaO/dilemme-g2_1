@@ -41,7 +41,30 @@ public class GameService {
         return currentGame.getGameStateBehaviour().makeDecision(currentGame, currentPlayer, playerDecision);
     }
 
-
+//    public synchronized GameMessage leaveGame(String playerName){
+//        GameEncounter game = getGameByPlayer(playerName);
+//        if (game!= null) {
+//            if (playerName.equals(game.getPlayer1().getName())) {
+//                if (game.getPlayer2() != null) {
+//                    game.setPlayer1(game.getPlayer2());
+//                    game.setPlayer2(null);
+//                    game.setGameState(GameState.WAITING_FOR_PLAYER);
+//                    game.setBoard(new String[3][3]);
+//                    waitingPlayers.put(game.getPlayer1(), game.getGameId());
+//                } else {
+//                    games.remove(gameId);
+//                    return null;
+//                }
+//            } else if (playerName.equals(game.getPlayer2().getName())) {
+//                game.setPlayer2(null);
+//                game.setGameState(GameState.WAITING_FOR_PLAYER);
+//                game.setBoard(new String[3][3]);
+//                waitingPlayers.put(game.getPlayer1(), game.getGameId());
+//            }
+//            return game;
+//        }
+//        return null;
+//    }
     public GameEncounter getGame(String gameId) {
         return games.get(gameId);
     }

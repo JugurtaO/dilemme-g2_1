@@ -25,13 +25,12 @@ public class MessageController {
     private final GameService gameService = new GameService();
     @MessageMapping("/game.join")
     @SendTo("/topic/game.state")
-    public GameMessage joinGame(@Payload JoinMessage message) {
+    public synchronized GameMessage joinGame(@Payload JoinMessage message) {
         return gameService.joinGame(message.playerName());
     }
 
-
     @MessageMapping("/game.decision")
-    public void makePlayerDecision(@Payload @NonNull PlayerMessage message) {
+    public synchronized  void makePlayerDecision(@Payload @NonNull PlayerMessage message) {
         String gameId = message.gameId();
         boolean decision = message.decision();
         GameEncounter game = gameService.getGame(gameId);
@@ -47,4 +46,47 @@ public class MessageController {
         }
 
 
-}}
+}
+
+//    @MessageMapping("/game.leave")
+//    public void leaveGame(@Payload LeaveMessage message) {
+//        GameMessage gameMessage = gameService.leaveGame(message.playerName());
+//        if (gameMessage.gameId() != null) {
+//            messagingTemplate.convertAndSend("/topic/game." + gameMessage.gameId(), gameMessage);
+//        }
+//    }
+
+//    @EventListener
+//    public  void SessionDisconnectEvent(SessionDisconnectEvent event) {
+//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+//        String gameId = headerAccessor.getSessionAttributes().get("gameId").toString();
+//        String player = headerAccessor.getSessionAttributes().get("player").toString();
+//        TicTacToe game = ticTacToeManager.getGame(gameId);
+//        if (game != null) {
+//            if (game.getPlayer1().equals(player)) {
+//                game.setPlayer1(null);
+//                if (game.getPlayer2() != null) {
+//                    game.setGameState(GameState.PLAYER2_WON);
+//                    game.setWinner(game.getPlayer2());
+//                } else {
+//                    ticTacToeManager.removeGame(gameId);
+//                }
+//            } else if (game.getPlayer2() != null && game.getPlayer2().equals(player)) {
+//                game.setPlayer2(null);
+//                if (game.getPlayer1() != null) {
+//                    game.setGameState(GameState.PLAYER1_WON);
+//                    game.setWinner(game.getPlayer1());
+//                } else {
+//                    ticTacToeManager.removeGame(gameId);
+//                }
+//            }
+//            TicTacToeMessage gameMessage = gameToMessage(game);
+//            gameMessage.setType("game.gameOver");
+//            messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage);
+//            ticTacToeManager.removeGame(gameId);
+//        }
+//    }
+
+
+}
+

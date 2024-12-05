@@ -46,10 +46,10 @@
             if (currentTour == null) { //on crée le tour
                 if (currentPlayer.getRole() == PlayerRole.J1) {
                     gameEncounter.getHistory().addTour(playerDecision, null);
-                    gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + A_JOUE);
+                    gameMessage = new GameMessage(GAME_DECISION, gameEncounter.getGameId(), gameEncounter.getPlayer1Name(), gameEncounter.getPlayer2Name(), gameEncounter.getWinner(), currentPlayer.getName() + A_JOUE, gameEncounter.getGameState(), gameEncounter.getNbTours(), gameEncounter.getCurrentTourNumber(),null,gameEncounter.getPlayer1().getScore(),gameEncounter.getPlayer2().getScore());
                 } else {
                     gameEncounter.getHistory().addTour(null, playerDecision);
-                    gameMessage = new GameMessage(GAME_DECISION, gameEncounter, currentPlayer.getName() + A_JOUE);
+                    gameMessage = new GameMessage(GAME_DECISION, gameEncounter.getGameId(), gameEncounter.getPlayer1Name(), gameEncounter.getPlayer2Name(), gameEncounter.getWinner(), currentPlayer.getName() + A_JOUE, gameEncounter.getGameState(), gameEncounter.getNbTours(), gameEncounter.getCurrentTourNumber(),null,gameEncounter.getPlayer1().getScore(),gameEncounter.getPlayer2().getScore());
                 }
 
             } else { // le tour existe c'est à dire quelqu'un a déjà joué -> vérifier sile joueur rente de jouer si c'est le cas ne rien fair eou l'informer
