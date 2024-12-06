@@ -35,6 +35,7 @@ class GameInProgressStateBehaviourTests {
         // given
         Player player1 = new Player("Player1", gameEncounter);
         gameEncounter.setPlayer1(player1);
+        gameEncounter.getHistory().addTour(true,false);
         String playerName = "Player1";
 
         // when
@@ -51,6 +52,8 @@ class GameInProgressStateBehaviourTests {
         // given
         Player player2 = new Player("Player2", gameEncounter);
         gameEncounter.setPlayer2(player2);
+        gameEncounter.getHistory().addTour(true,false);
+
         String playerName = "Player2";
 
         // when
