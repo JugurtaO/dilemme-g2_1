@@ -41,30 +41,18 @@ public class GameService {
         return currentGame.getGameStateBehaviour().makeDecision(currentGame, currentPlayer, playerDecision);
     }
 
-//    public synchronized GameMessage leaveGame(String playerName){
-//        GameEncounter game = getGameByPlayer(playerName);
-//        if (game!= null) {
-//            if (playerName.equals(game.getPlayer1().getName())) {
-//                if (game.getPlayer2() != null) {
-//                    game.setPlayer1(game.getPlayer2());
-//                    game.setPlayer2(null);
-//                    game.setGameState(GameState.WAITING_FOR_PLAYER);
-//                    game.setBoard(new String[3][3]);
-//                    waitingPlayers.put(game.getPlayer1(), game.getGameId());
-//                } else {
-//                    games.remove(gameId);
-//                    return null;
-//                }
-//            } else if (playerName.equals(game.getPlayer2().getName())) {
-//                game.setPlayer2(null);
-//                game.setGameState(GameState.WAITING_FOR_PLAYER);
-//                game.setBoard(new String[3][3]);
-//                waitingPlayers.put(game.getPlayer1(), game.getGameId());
-//            }
-//            return game;
-//        }
-//        return null;
-//    }
+    public synchronized GameMessage leaveGame(String playerName){
+        GameEncounter game = getGameByPlayer(playerName);
+        System.out.println("GAME TO LEAVE | PlayerName >> "+game +playerName);
+
+        GameMessage gameMessage=game.leaveGame(game,playerName);
+        if((game.getPlayer1().isAiMode() && (game.getPlayer2()==null||game.getPlayer2().isAiMode()))){
+                removeGame(game.getGameId());
+        }
+
+        return gameMessage;
+
+    }
     public GameEncounter getGame(String gameId) {
         return games.get(gameId);
     }
@@ -73,7 +61,6 @@ public class GameService {
     public GameEncounter getGameByPlayer(String playerName) {
         return games.values().stream().filter(game -> game.getPlayer1().getName().equals(playerName) || (game.getPlayer2() != null && game.getPlayer2().getName().equals(playerName))).findFirst().orElse(null);
     }
-
 
     public GameEncounter removeGame(String gameId) {
         return games.remove(gameId);

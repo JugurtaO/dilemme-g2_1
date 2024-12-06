@@ -3,17 +3,24 @@ package fr.uga.l3miage.pc.prisonersdilemma.controllers;
 
 import fr.uga.l3miage.pc.prisonersdilemma.dto.GameMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.dto.JoinMessage;
+import fr.uga.l3miage.pc.prisonersdilemma.dto.LeaveMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.dto.PlayerMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Player;
 import fr.uga.l3miage.pc.prisonersdilemma.services.GameService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 public class MessageController {
@@ -25,8 +32,16 @@ public class MessageController {
     private final GameService gameService = new GameService();
     @MessageMapping("/game.join")
     @SendTo("/topic/game.state")
-    public synchronized GameMessage joinGame(@Payload JoinMessage message) {
-        return gameService.joinGame(message.playerName());
+    public synchronized GameMessage joinGame(@Payload JoinMessage message, SimpMessageHeaderAccessor headerAccessor) {
+
+        GameMessage gameMessage=gameService.joinGame(message.playerName());
+        Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
+        if (sessionAttributes == null) {
+            sessionAttributes = new ConcurrentHashMap<>();
+            headerAccessor.setSessionAttributes(sessionAttributes);
+        }
+        sessionAttributes.put("playerName", message.playerName());
+        return gameMessage;
     }
 
     @MessageMapping("/game.decision")
@@ -48,45 +63,29 @@ public class MessageController {
 
 }
 
-//    @MessageMapping("/game.leave")
-//    public void leaveGame(@Payload LeaveMessage message) {
-//        GameMessage gameMessage = gameService.leaveGame(message.playerName());
-//        if (gameMessage.gameId() != null) {
-//            messagingTemplate.convertAndSend("/topic/game." + gameMessage.gameId(), gameMessage);
-//        }
-//    }
+    @MessageMapping("/game.leave")
+    public void leaveGame(@Payload LeaveMessage message) {
+        GameMessage gameMessage = gameService.leaveGame(message.playerName());
+        messagingTemplate.convertAndSend("/topic/game." + gameMessage.gameId(), gameMessage);
+    }
 
-//    @EventListener
-//    public  void SessionDisconnectEvent(SessionDisconnectEvent event) {
-//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-//        String gameId = headerAccessor.getSessionAttributes().get("gameId").toString();
-//        String player = headerAccessor.getSessionAttributes().get("player").toString();
-//        TicTacToe game = ticTacToeManager.getGame(gameId);
-//        if (game != null) {
-//            if (game.getPlayer1().equals(player)) {
-//                game.setPlayer1(null);
-//                if (game.getPlayer2() != null) {
-//                    game.setGameState(GameState.PLAYER2_WON);
-//                    game.setWinner(game.getPlayer2());
-//                } else {
-//                    ticTacToeManager.removeGame(gameId);
-//                }
-//            } else if (game.getPlayer2() != null && game.getPlayer2().equals(player)) {
-//                game.setPlayer2(null);
-//                if (game.getPlayer1() != null) {
-//                    game.setGameState(GameState.PLAYER1_WON);
-//                    game.setWinner(game.getPlayer1());
-//                } else {
-//                    ticTacToeManager.removeGame(gameId);
-//                }
-//            }
-//            TicTacToeMessage gameMessage = gameToMessage(game);
-//            gameMessage.setType("game.gameOver");
-//            messagingTemplate.convertAndSend("/topic/game." + gameId, gameMessage);
-//            ticTacToeManager.removeGame(gameId);
-//        }
-//    }
+@EventListener
+public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+    SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.wrap(event.getMessage());
 
+    Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
+    if (sessionAttributes != null && sessionAttributes.containsKey("playerName")) {
+        String playerName = (String) sessionAttributes.get("playerName");
+        if(playerName!=null){
+            GameEncounter game=gameService.getGameByPlayer(playerName);
+            if(game!=null){
+                GameMessage gameMessage = gameService.leaveGame(playerName);
+                messagingTemplate.convertAndSend("/topic/game." + gameMessage.gameId(), gameMessage);
+            }
 
+        }
+    }
+
+}
 }
 
