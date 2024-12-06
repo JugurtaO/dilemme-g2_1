@@ -41,7 +41,18 @@ public class GameService {
         return currentGame.getGameStateBehaviour().makeDecision(currentGame, currentPlayer, playerDecision);
     }
 
+    public synchronized GameMessage leaveGame(String playerName){
+        GameEncounter game = getGameByPlayer(playerName);
+        System.out.println("GAME TO LEAVE | PlayerName >> "+game +playerName);
 
+        GameMessage gameMessage=game.leaveGame(game,playerName);
+        if((game.getPlayer1().isAiMode() && (game.getPlayer2()==null||game.getPlayer2().isAiMode()))){
+                removeGame(game.getGameId());
+        }
+
+        return gameMessage;
+
+    }
     public GameEncounter getGame(String gameId) {
         return games.get(gameId);
     }
@@ -50,7 +61,6 @@ public class GameService {
     public GameEncounter getGameByPlayer(String playerName) {
         return games.values().stream().filter(game -> game.getPlayer1().getName().equals(playerName) || (game.getPlayer2() != null && game.getPlayer2().getName().equals(playerName))).findFirst().orElse(null);
     }
-
 
     public GameEncounter removeGame(String gameId) {
         return games.remove(gameId);
