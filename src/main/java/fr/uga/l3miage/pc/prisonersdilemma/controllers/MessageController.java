@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MessageController {
 
     public static final String TOPIC_GAME1 = "/topic/game.";
+    public static final String PLAYER_NAME_KEY = "playerName";
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
@@ -40,7 +41,7 @@ public class MessageController {
             sessionAttributes = new ConcurrentHashMap<>();
             headerAccessor.setSessionAttributes(sessionAttributes);
         }
-        sessionAttributes.put("playerName", message.playerName());
+        sessionAttributes.put(PLAYER_NAME_KEY, message.playerName());
         return gameMessage;
     }
 
@@ -66,7 +67,7 @@ public class MessageController {
     @MessageMapping("/game.leave")
     public void leaveGame(@Payload LeaveMessage message) {
         GameMessage gameMessage = gameService.leaveGame(message.playerName());
-        messagingTemplate.convertAndSend("/topic/game." + gameMessage.gameId(), gameMessage);
+        messagingTemplate.convertAndSend( TOPIC_GAME1+ gameMessage.gameId(), gameMessage);
     }
 
 @EventListener
@@ -74,13 +75,13 @@ public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.wrap(event.getMessage());
 
     Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
-    if (sessionAttributes != null && sessionAttributes.containsKey("playerName")) {
-        String playerName = (String) sessionAttributes.get("playerName");
+    if (sessionAttributes != null && sessionAttributes.containsKey(PLAYER_NAME_KEY)) {
+        String playerName = (String) sessionAttributes.get(PLAYER_NAME_KEY);
         if(playerName!=null){
             GameEncounter game=gameService.getGameByPlayer(playerName);
             if(game!=null){
                 GameMessage gameMessage = gameService.leaveGame(playerName);
-                messagingTemplate.convertAndSend("/topic/game." + gameMessage.gameId(), gameMessage);
+                messagingTemplate.convertAndSend(TOPIC_GAME1 + gameMessage.gameId(), gameMessage);
             }
 
         }

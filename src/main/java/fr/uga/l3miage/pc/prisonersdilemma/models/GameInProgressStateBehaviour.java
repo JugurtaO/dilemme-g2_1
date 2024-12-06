@@ -25,6 +25,10 @@
             if(Objects.equals(gameEncounter.getPlayer1Name(), playerName)){
                 gameEncounter.getPlayer1().setAiMode(true);
                 gameEncounter.getPlayer1().setStrategy(StrategyFactory.getStrategyInstance(this.random.nextInt(18)));
+                Tour currentTour =gameEncounter.getHistory().getLastTour();
+                if(currentTour.getPlayer1Decision()==null){
+                    gameEncounter.makeDecision(gameEncounter,gameEncounter.getPlayer1(),gameEncounter.getPlayer1().makeDecision(true));
+                }
                 if(gameEncounter.getPlayer2()!=null && gameEncounter.getPlayer2().isAiMode()){
                     gameEncounter.setGameState(GameState.GAME_FINISHED);
                     gameEncounter.setGameStateBehaviour(new GameFinishStateBehaviour());
@@ -34,6 +38,10 @@
             if(Objects.equals(gameEncounter.getPlayer2Name(), playerName)){
                 gameEncounter.getPlayer2().setAiMode(true);
                 gameEncounter.getPlayer2().setStrategy(StrategyFactory.getStrategyInstance(this.random.nextInt(18)));
+                Tour currentTour =gameEncounter.getHistory().getLastTour();
+                if(currentTour.getPlayer2Decision()==null){
+                    gameEncounter.makeDecision(gameEncounter,gameEncounter.getPlayer2(),gameEncounter.getPlayer2().makeDecision(true));
+                }
                 if(gameEncounter.getPlayer1()!=null && gameEncounter.getPlayer1().isAiMode()){
                     gameEncounter.setGameState(GameState.GAME_FINISHED);
                     gameEncounter.setGameStateBehaviour(new GameFinishStateBehaviour());
