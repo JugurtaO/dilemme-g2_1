@@ -3,17 +3,24 @@ package fr.uga.l3miage.pc.prisonersdilemma.controllers;
 
 import fr.uga.l3miage.pc.prisonersdilemma.dto.GameMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.dto.JoinMessage;
+import fr.uga.l3miage.pc.prisonersdilemma.dto.LeaveMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.dto.PlayerMessage;
 import fr.uga.l3miage.pc.prisonersdilemma.models.GameEncounter;
 import fr.uga.l3miage.pc.prisonersdilemma.models.Player;
 import fr.uga.l3miage.pc.prisonersdilemma.services.GameService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 public class MessageController {
@@ -25,13 +32,20 @@ public class MessageController {
     private final GameService gameService = new GameService();
     @MessageMapping("/game.join")
     @SendTo("/topic/game.state")
-    public GameMessage joinGame(@Payload JoinMessage message) {
-        return gameService.joinGame(message.playerName());
+    public synchronized GameMessage joinGame(@Payload JoinMessage message, SimpMessageHeaderAccessor headerAccessor) {
+
+        GameMessage gameMessage=gameService.joinGame(message.playerName());
+        Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
+        if (sessionAttributes == null) {
+            sessionAttributes = new ConcurrentHashMap<>();
+            headerAccessor.setSessionAttributes(sessionAttributes);
+        }
+        sessionAttributes.put("playerName", message.playerName());
+        return gameMessage;
     }
 
-
     @MessageMapping("/game.decision")
-    public void makePlayerDecision(@Payload @NonNull PlayerMessage message) {
+    public synchronized  void makePlayerDecision(@Payload @NonNull PlayerMessage message) {
         String gameId = message.gameId();
         boolean decision = message.decision();
         GameEncounter game = gameService.getGame(gameId);
@@ -47,4 +61,31 @@ public class MessageController {
         }
 
 
-}}
+}
+
+    @MessageMapping("/game.leave")
+    public void leaveGame(@Payload LeaveMessage message) {
+        GameMessage gameMessage = gameService.leaveGame(message.playerName());
+        messagingTemplate.convertAndSend("/topic/game." + gameMessage.gameId(), gameMessage);
+    }
+
+@EventListener
+public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+    SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.wrap(event.getMessage());
+
+    Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
+    if (sessionAttributes != null && sessionAttributes.containsKey("playerName")) {
+        String playerName = (String) sessionAttributes.get("playerName");
+        if(playerName!=null){
+            GameEncounter game=gameService.getGameByPlayer(playerName);
+            if(game!=null){
+                GameMessage gameMessage = gameService.leaveGame(playerName);
+                messagingTemplate.convertAndSend("/topic/game." + gameMessage.gameId(), gameMessage);
+            }
+
+        }
+    }
+
+}
+}
+

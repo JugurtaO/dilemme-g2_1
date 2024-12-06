@@ -33,6 +33,11 @@ public class WaitingPlayersStateBehaviour implements GameStateBehaviour {
     }
 
     @Override
+    public GameMessage makeDecision(GameEncounter gameEncounter, Player currentPlayer, boolean playerDecision) {
+        return new GameMessage(GAME_ERROR,gameEncounter,"erreur : cannot make decision in a game where a player is missing");
+    }
+
+    @Override
     public GameMessage leaveGame(GameEncounter gameEncounter, String playerName) {
         if(Objects.equals(gameEncounter.getPlayer1Name(), playerName)){
             gameEncounter.getPlayer1().setAiMode(true);
@@ -46,10 +51,5 @@ public class WaitingPlayersStateBehaviour implements GameStateBehaviour {
         }
         return new GameMessage(GAME_ERROR,gameEncounter,playerName+" cannot leave the game is not in it");
 
-    }
-
-    @Override
-    public GameMessage makeDecision(GameEncounter gameEncounter, Player currentPlayer, boolean playerDecision) {
-        return new GameMessage(GAME_ERROR,gameEncounter,"erreur : cannot make decision in a game where a player is missing");
     }
 }
