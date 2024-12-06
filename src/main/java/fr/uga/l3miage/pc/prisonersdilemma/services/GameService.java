@@ -43,7 +43,6 @@ public class GameService {
 
     public synchronized GameMessage leaveGame(String playerName){
         GameEncounter game = getGameByPlayer(playerName);
-        System.out.println("GAME TO LEAVE | PlayerName >> "+game +playerName);
 
         GameMessage gameMessage=game.leaveGame(game,playerName);
         if((game.getPlayer1().isAiMode() && (game.getPlayer2()==null||game.getPlayer2().isAiMode()))){
