@@ -144,4 +144,17 @@ class HistoryTest {
         assertEquals(2, player1AverageCooperateScore, "Player 1's average cooperate score should be 1");
         assertEquals(1.5, player2AverageCooperateScore, "Player 2's average cooperate score should be 1.5");
     }
+
+    @Test
+    void testGetTourByTourNumberNull(){
+        assertNull(history.getTourByTourNumber(2),"Tour list is empty ");
+    }
+
+    @Test
+    void testGetTourByTourNumberFound(){
+        history.addTour(true, false);
+        Tour result=history.getTourByTourNumber(1);
+        assertNotNull(result,"Tour list is empty ");
+        assertEquals(1,result.getTourNumber());
+    }
 }
