@@ -66,4 +66,12 @@ class TruePeaceMakerTest {
 
     }
 
+    @Test
+    void getTruePeaceMakerDecisionTrue(){
+        History history = new History();
+        history.addTour(true, true);
+        history.addTour(true, true);
+        assertTrue(truePeaceMakerStrategy.getTruePeaceMakerDecision(history, PlayerRole.J1));
+    }
+
 }

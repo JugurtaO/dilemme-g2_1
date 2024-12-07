@@ -18,7 +18,6 @@ public class WaitingPlayersStateBehaviour implements GameStateBehaviour {
         if(gameEncounter.getPlayer1()==null){
             gameEncounter.setPlayer1(new Player(playerName,gameEncounter));
             gameEncounter.setGameState(GameState.WAITING_FOR_PLAYER);
-
             return new GameMessage(GAME_JOIN,gameEncounter,playerName+" has joined the game");
         }
         if(gameEncounter.getPlayer2()==null){
