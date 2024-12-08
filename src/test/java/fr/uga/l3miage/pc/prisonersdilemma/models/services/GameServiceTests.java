@@ -14,8 +14,9 @@ import java.util.UUID;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
- class GameServiceTests {
+class GameServiceTests {
     private GameService gameService;
+
 
     @BeforeEach
     void resetServiceGameEncounters(){
@@ -93,4 +94,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
         GameEncounter response= this.gameService.removeGame(UUID.randomUUID().toString());
         assertThat(response).isNull();
     }
+
+
 }

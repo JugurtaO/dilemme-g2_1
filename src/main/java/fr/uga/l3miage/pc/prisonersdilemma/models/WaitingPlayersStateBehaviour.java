@@ -18,7 +18,6 @@ public class WaitingPlayersStateBehaviour implements GameStateBehaviour {
         if(gameEncounter.getPlayer1()==null){
             gameEncounter.setPlayer1(new Player(playerName,gameEncounter));
             gameEncounter.setGameState(GameState.WAITING_FOR_PLAYER);
-
             return new GameMessage(GAME_JOIN,gameEncounter,playerName+" has joined the game");
         }
         if(gameEncounter.getPlayer2()==null){
@@ -38,15 +37,15 @@ public class WaitingPlayersStateBehaviour implements GameStateBehaviour {
     }
 
     @Override
-    public GameMessage leaveGame(GameEncounter gameEncounter, String playerName) {
+    public GameMessage leaveGame(GameEncounter gameEncounter, String playerName,int choosedStrategyNumber) {
         if(Objects.equals(gameEncounter.getPlayer1Name(), playerName)){
             gameEncounter.getPlayer1().setAiMode(true);
-            gameEncounter.getPlayer1().setStrategy(StrategyFactory.getStrategyInstance(this.random.nextInt(18)));
+            gameEncounter.getPlayer1().setStrategy(StrategyFactory.getStrategyInstance(choosedStrategyNumber));
             return new GameMessage(GAME_LEFT,gameEncounter,playerName+" has left the game");
         }
         if(Objects.equals(gameEncounter.getPlayer2Name(), playerName)){
             gameEncounter.getPlayer2().setAiMode(true);
-            gameEncounter.getPlayer2().setStrategy(StrategyFactory.getStrategyInstance(this.random.nextInt(18)));
+            gameEncounter.getPlayer2().setStrategy(StrategyFactory.getStrategyInstance(choosedStrategyNumber));
             return new GameMessage(GAME_LEFT,gameEncounter,playerName+" has left the game");
         }
         return new GameMessage(GAME_ERROR,gameEncounter,playerName+" cannot leave the game is not in it");

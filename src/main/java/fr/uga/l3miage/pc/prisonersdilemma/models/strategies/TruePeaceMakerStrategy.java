@@ -17,7 +17,7 @@ public class TruePeaceMakerStrategy implements Strategy{
 
     }
 
-    private  boolean getTruePeaceMakerDecision(History history, PlayerRole playerRole) {
+    public   boolean getTruePeaceMakerDecision(History history, PlayerRole playerRole) {
         List<Tour> lastTwoTours = history.getLastTours(2);
         if(lastTwoTours.get(1).getPlayerDecision(playerRole.opponent())&&lastTwoTours.get(0).getPlayerDecision(playerRole.opponent())){
             return true;

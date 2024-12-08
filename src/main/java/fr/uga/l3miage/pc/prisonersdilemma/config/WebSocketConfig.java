@@ -13,6 +13,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
@@ -43,10 +45,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     // Associer le sessionId dès que la connexion est établie
                     if (accessor.getMessageType() == SimpMessageType.CONNECT) {
                         String sessionId = accessor.getSessionId();
-                        if (accessor.getSessionAttributes() == null) {
-                            accessor.setSessionAttributes(new ConcurrentHashMap<>());
-                        }
-                        accessor.getSessionAttributes().put("sessionId", sessionId);
+
+                        Map<String, Object> sessionAttributes = Optional.ofNullable(accessor.getSessionAttributes())
+                                .orElseGet(() -> {
+                                    Map<String, Object> newAttributes = new ConcurrentHashMap<>();
+                                    accessor.setSessionAttributes(newAttributes);
+                                    return newAttributes;
+                                });
+
+                        sessionAttributes.put("sessionId", sessionId);
                     }
                     return message;
                 }

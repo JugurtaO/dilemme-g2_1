@@ -12,7 +12,7 @@ public class GameFinishStateBehaviour implements GameStateBehaviour {
     }
 
     @Override
-    public GameMessage leaveGame(GameEncounter gameEncounter, String playerName) {
+    public GameMessage leaveGame(GameEncounter gameEncounter, String playerName,int choosedStrategyNumber) {
         return new GameMessage(GAME_ERROR,gameEncounter,playerName+ "cannot leave. Game is finished");
 
     }
