@@ -21,7 +21,7 @@
         }
 
         @Override
-        public GameMessage leaveGame(GameEncounter gameEncounter, String playerName) {
+        public GameMessage leaveGame(GameEncounter gameEncounter, String playerName,int choosedStrategyNumber) {
             if (isPlayer(gameEncounter.getPlayer1Name(), playerName)) {
                 handlePlayerLeave(gameEncounter, gameEncounter.getPlayer1(), gameEncounter.getPlayer2());
                 return new GameMessage(GAME_LEFT, gameEncounter, playerName + " has left the game");

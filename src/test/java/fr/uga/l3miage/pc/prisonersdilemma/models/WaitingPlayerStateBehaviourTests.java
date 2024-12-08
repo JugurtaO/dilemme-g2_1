@@ -71,7 +71,7 @@ class WaitingPlayersStateBehaviourTests {
         String playerName = "Player1";
 
         // when
-        GameMessage result = stateBehaviour.leaveGame(gameEncounter, playerName);
+        GameMessage result = stateBehaviour.leaveGame(gameEncounter, playerName,1);
 
         // then
         assertTrue(gameEncounter.getPlayer1().isAiMode());
@@ -89,7 +89,7 @@ class WaitingPlayersStateBehaviourTests {
         String playerName = "Player2";
 
         // when
-        GameMessage result = stateBehaviour.leaveGame(gameEncounter, playerName);
+        GameMessage result = stateBehaviour.leaveGame(gameEncounter, playerName,1);
 
         // then
         assertTrue(gameEncounter.getPlayer2().isAiMode());
@@ -106,7 +106,7 @@ class WaitingPlayersStateBehaviourTests {
         String playerName = "Player3";
 
         // when
-        GameMessage result = stateBehaviour.leaveGame(gameEncounter, playerName);
+        GameMessage result = stateBehaviour.leaveGame(gameEncounter, playerName,1);
 
         // then
         assertEquals("game.error", result.messageType());

@@ -60,13 +60,11 @@ public class MessageController {
                 this.messagingTemplate.convertAndSend(TOPIC_GAME1 + gameId, gameMessage2);
                 gameService.removeGame(gameId);
         }
-
-
 }
 
     @MessageMapping("/game.leave")
     public void leaveGame(@Payload LeaveMessage message) {
-        GameMessage gameMessage = gameService.leaveGame(message.playerName());
+        GameMessage gameMessage = gameService.leaveGame(message.playerName(),message.choosedStrategyNumber());
         messagingTemplate.convertAndSend( TOPIC_GAME1+ gameMessage.gameId(), gameMessage);
     }
 
@@ -80,7 +78,7 @@ public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         if(playerName!=null){
             GameEncounter game=gameService.getGameByPlayer(playerName);
             if(game!=null){
-                GameMessage gameMessage = gameService.leaveGame(playerName);
+                GameMessage gameMessage = gameService.leaveGame(playerName, 1);
                 messagingTemplate.convertAndSend(TOPIC_GAME1 + gameMessage.gameId(), gameMessage);
             }
 

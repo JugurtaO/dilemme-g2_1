@@ -6,7 +6,6 @@ import fr.uga.l3miage.pc.prisonersdilemma.enums.PlayerRole;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 
@@ -74,8 +73,8 @@ public class GameEncounter implements GameStateBehaviour {
     }
 
     @Override
-    public GameMessage leaveGame(GameEncounter gameEncounter, String playerName) {
-        return this.gameStateBehaviour.leaveGame(gameEncounter, playerName);
+    public GameMessage leaveGame(GameEncounter gameEncounter, String playerName,int choosedStrategyNumber) {
+        return this.gameStateBehaviour.leaveGame(gameEncounter, playerName, choosedStrategyNumber);
     }
 
     @Override

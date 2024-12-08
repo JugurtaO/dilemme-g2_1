@@ -95,36 +95,5 @@ class GameServiceTests {
         assertThat(response).isNull();
     }
 
-//    @Test
-//     void leaveGameOK(){
-//
-//        GameEncounter  gameEncounter=mock(GameEncounter.class);
-//        GameMessage expectedMessage=  new GameMessage("game.left",gameEncounter,"Jugurta has left the game");
-//        when(gameEncounter.leaveGame(any(GameEncounter.class),"Jugurta")).thenReturn(expectedMessage);
-//
-//// Mock des propriétés de game
-//        Player player1 = mock(Player.class);
-//        Player player2 = mock(Player.class);
-//
-//        when(gameEncounter.getPlayer1()).thenReturn(player1);
-//        when(gameEncounter.getPlayer2()).thenReturn(player2);
-//
-//        when(player1.isAiMode()).thenReturn(false); // Mock du mode AI
-//        when(player2.isAiMode()).thenReturn(false); // Mock du mode AI
-//
-//        // Appel de la méthode à tester
-//        GameMessage result = gameService.leaveGame("Jugurta");
-//
-//        // Vérifications
-//        assertNotNull(result);
-//        assertEquals("Jugurta has left the game", result.content());
-//
-//        // Vérifier que removeGame a été appelé
-//        verify(gameService,times(0)).removeGame(anyString());
-//
-//        // Vérifier que leaveGame a été appelé
-//        verify(gameEncounter).leaveGame(gameEncounter, "Jugurta");
-//
-//    }
 
 }

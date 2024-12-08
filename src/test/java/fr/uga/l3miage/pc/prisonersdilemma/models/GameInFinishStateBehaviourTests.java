@@ -36,7 +36,7 @@ class GameFinishStateBehaviourTests {
         String playerName = "Player1";
 
         // when
-        GameMessage result = stateBehaviour.leaveGame(gameEncounter, playerName);
+        GameMessage result = stateBehaviour.leaveGame(gameEncounter, playerName,1);
 
         // then
         assertEquals("game.error", result.messageType());
