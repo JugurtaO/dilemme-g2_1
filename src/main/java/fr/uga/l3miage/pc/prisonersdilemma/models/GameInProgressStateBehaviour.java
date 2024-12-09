@@ -23,12 +23,12 @@
         @Override
         public GameMessage leaveGame(GameEncounter gameEncounter, String playerName,int choosedStrategyNumber) {
             if (isPlayer(gameEncounter.getPlayer1Name(), playerName)) {
-                handlePlayerLeave(gameEncounter, gameEncounter.getPlayer1(), gameEncounter.getPlayer2());
+                handlePlayerLeave(gameEncounter, gameEncounter.getPlayer1(), gameEncounter.getPlayer2(),choosedStrategyNumber);
                 return new GameMessage(GAME_LEFT, gameEncounter, playerName + " has left the game");
             }
 
             if (isPlayer(gameEncounter.getPlayer2Name(), playerName)) {
-                handlePlayerLeave(gameEncounter, gameEncounter.getPlayer2(), gameEncounter.getPlayer1());
+                handlePlayerLeave(gameEncounter, gameEncounter.getPlayer2(), gameEncounter.getPlayer1(),choosedStrategyNumber);
                 return new GameMessage(GAME_LEFT, gameEncounter, playerName + " has left the game");
             }
 
@@ -39,9 +39,9 @@
             return Objects.equals(playerNameInGame, playerName);
         }
 
-        private void handlePlayerLeave(GameEncounter gameEncounter, Player leavingPlayer, Player otherPlayer) {
+        private void handlePlayerLeave(GameEncounter gameEncounter, Player leavingPlayer, Player otherPlayer,int choosedStrategyNumber) {
             leavingPlayer.setAiMode(true);
-            leavingPlayer.setStrategy(StrategyFactory.getStrategyInstance(this.random.nextInt(18)));
+            leavingPlayer.setStrategy(StrategyFactory.getStrategyInstance(choosedStrategyNumber));
 
             if (!gameEncounter.getHistory().isEmpty()) {
                 Tour currentTour = gameEncounter.getHistory().getLastTour();
