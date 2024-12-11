@@ -314,4 +314,39 @@ class GameInProgressStateBehaviourTests {
         assertEquals(expectedResponse.messageType(),result.messageType());
 
     }
+
+    @Test
+    void isGameFinished_newTourTrue(){
+        gameEncounter.getHistory().addTour(true,false);
+        gameEncounter.getHistory().addTour(true,false);
+        gameEncounter.getHistory().addTour(true,false);
+        gameEncounter.getHistory().addTour(true,false);
+        gameEncounter.getHistory().addTour(true,false);
+        boolean result= stateBehaviour.isGameFinished(gameEncounter,true);
+        assertFalse(result);
+    }
+
+    @Test
+    void HandleExistingTourAsPlayerThatAlreadyPlayed(){
+        gameEncounter.getHistory().addTour(true,false);
+        gameEncounter.getHistory().addTour(false,null);
+        gameEncounter.setPlayer1(new Player("Player1", gameEncounter));
+        gameEncounter.setCurrentTourNumber(2);
+        GameMessage result = stateBehaviour.handleExistingTour(gameEncounter,gameEncounter.getPlayer1(),false,gameEncounter.getTourByTourNumber(gameEncounter.getCurrentTourNumber()));
+
+        assertEquals(GameInProgressStateBehaviour.GAME_ERROR, result.messageType());
+
+    }
+@Test
+void leavingWithoutMakingDecision(){
+    gameEncounter.getHistory().addTour(true,false);
+    gameEncounter.getHistory().addTour(false,null);
+    gameEncounter.setPlayer1(new Player("Player1", gameEncounter));
+    gameEncounter.setPlayer2(new Player("Player2", gameEncounter));
+    gameEncounter.getPlayer1().setAiMode(true);
+    gameEncounter.setCurrentTourNumber(2);
+    gameEncounter.setGameStateBehaviour(stateBehaviour);
+    gameEncounter.leaveGame(gameEncounter,"Player2",11);
+    assertEquals(true, gameEncounter.getHistory().getLastTour().getPlayerDecision(PlayerRole.J2));
+}
 }
