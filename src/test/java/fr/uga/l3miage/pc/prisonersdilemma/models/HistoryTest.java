@@ -82,6 +82,22 @@ class HistoryTest {
         assertTrue(lastTwoTours.get(1).getPlayerDecision(PlayerRole.J1), "Last tour should have player 1 cooperating");
         assertTrue(lastTwoTours.get(1).getPlayerDecision(PlayerRole.J2), "Last tour should have player 2 cooperating");
     }
+    @Test
+    void testGetLastToursWithGreaterThanCurrent() {
+        history.addTour(true, false);
+        history.addTour(false, true);
+        history.addTour(true, true);
+        List<Tour> lastTwoTours = history.getLastTours(50);
+        assertTrue(lastTwoTours.isEmpty());
+    }
+    @Test
+    void testGetLastToursWithLessThanZero() {
+        history.addTour(true, false);
+        history.addTour(false, true);
+        history.addTour(true, true);
+        List<Tour> lastTwoTours = history.getLastTours(-6);
+        assertTrue(lastTwoTours.isEmpty());
+    }
 
     @Test
     void testGetLastToursEmpty1() {
@@ -171,5 +187,11 @@ class HistoryTest {
         Tour result=history.getTourByTourNumber(1);
         assertNotNull(result,"Tour list is empty ");
         assertEquals(1,result.getTourNumber());
+    }
+    @Test
+    void testGetTourByTourNumberNotFound(){
+        history.addTour(true, false);
+        Tour result=history.getTourByTourNumber(2);
+        assertNull(result,"Tour list is empty ");
     }
 }
