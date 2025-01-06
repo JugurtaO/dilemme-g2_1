@@ -36,8 +36,10 @@ The app is an SPA :
 
 ### Access the app via Internet:
 ```angular2html
-The application is deployed in an AWS EC2 instance.
+The application is deployed in a UFR VM.
 ```
+
+Firstly, you should connect to the IM²AG UFR VPN and then access the app :
 ```angular2html
-15.188.52.15
+http://129.88.210.201/
 ```
