@@ -100,6 +100,21 @@ class HistoryTest {
     }
 
     @Test
+    void testGetLastToursEmpty1() {
+        history.addTour(true, false);
+        history.addTour(false, true);
+        List lastTours = history.getLastTours(0);
+        assertTrue(lastTours.isEmpty(), "Last tours should be empty");
+    }
+    @Test
+    void testGetLastToursEmpty2() {
+        history.addTour(true, false);
+        history.addTour(false, true);
+        List lastTours = history.getLastTours(3);
+        assertTrue(lastTours.isEmpty(), "Last tours should be empty");
+    }
+
+    @Test
     void testPlayerHasBetray() {
         history.addTour(true, true);
         history.addTour(true, false);
