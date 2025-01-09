@@ -7,6 +7,7 @@ WORKDIR /app
 # Copier le fichier pom.xml et télécharger les dépendances
 COPY  pom.xml .
 COPY /server/pom.xml server/
+#COPY /api-rest/pom.xml api-rest/
 
 
 # Télécharger les dépendances sans builder le projet (cela permet d'optimiser la construction en cache)
@@ -14,6 +15,8 @@ RUN mvn dependency:go-offline -f pom.xml
 
 # Copier le reste du projet et builder l'application
 COPY server/src server/src
+#COPY api-rest/src api-rest/src
+
 
 # Lancer le build et repackage avec Spring Boot
 RUN mvn   clean package spring-boot:repackage -DskipTests
