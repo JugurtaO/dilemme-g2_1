@@ -34,7 +34,6 @@ public class MessageController {
     @MessageMapping("/game.join")
     @SendTo("/topic/game.state")
     public synchronized GameMessage joinGame(@Payload JoinMessage message, SimpMessageHeaderAccessor headerAccessor) {
-
         GameMessage gameMessage=gameService.joinGame(message.playerName());
         Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
         if (sessionAttributes == null) {
