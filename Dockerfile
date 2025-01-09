@@ -6,15 +6,20 @@ WORKDIR /app
 
 # Copier le fichier pom.xml et télécharger les dépendances
 COPY  pom.xml .
+COPY /server/pom.xml server/
+COPY /api-rest/pom.xml api-rest/
+
 
 # Télécharger les dépendances sans builder le projet (cela permet d'optimiser la construction en cache)
-RUN mvn dependency:go-offline
+RUN mvn dependency:go-offline -f pom.xml
 
 # Copier le reste du projet et builder l'application
-COPY . .
+COPY server/src server/src
+COPY api-rest/src api-rest/src
+
 
 # Lancer le build et repackage avec Spring Boot
-RUN mvn clean package spring-boot:repackage
+RUN mvn   clean package spring-boot:repackage -DskipTests
 
 # Étape 2 : Exécuter l'application avec une image Java Runtime
 FROM eclipse-temurin:17-jdk-alpine
@@ -23,7 +28,7 @@ FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 
 # Copier le jar généré depuis l'étape de build
-COPY --from=build /app/target/dilemme_g2_1-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=build /app/server/target/server-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Exposer le port sur lequel l'application écoute
 EXPOSE 8080
