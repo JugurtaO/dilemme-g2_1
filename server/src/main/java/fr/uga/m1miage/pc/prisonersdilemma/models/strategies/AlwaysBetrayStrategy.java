@@ -1,0 +1,13 @@
+package fr.uga.m1miage.pc.prisonersdilemma.models.strategies;
+
+import fr.uga.m1miage.pc.prisonersdilemma.enums.PlayerRole;
+import fr.uga.m1miage.pc.prisonersdilemma.models.History;
+
+public class AlwaysBetrayStrategy implements   Strategy{
+    @Override
+    public boolean play(History history, PlayerRole playerRole) {
+        return false;
+    }
+
+
+}
