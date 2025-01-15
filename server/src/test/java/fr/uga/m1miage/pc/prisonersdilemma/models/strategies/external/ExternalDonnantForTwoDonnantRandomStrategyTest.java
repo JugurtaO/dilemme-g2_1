@@ -2,7 +2,6 @@ package fr.uga.m1miage.pc.prisonersdilemma.models.strategies.external;
 
 import fr.uga.l3miage.pc.prisonersdilemma.enums.Decision;
 import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.DonnantPourDeuxDonnantAleatoireStrategie;
-import fr.uga.l3miage.pc.prisonersdilemma.models.strategies.PacificateurNaifStrategie;
 import fr.uga.m1miage.pc.prisonersdilemma.enums.PlayerRole;
 import fr.uga.m1miage.pc.prisonersdilemma.models.History;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +21,7 @@ class ExternalDonnantForTwoDonnantRandomStrategyTest {
     private DonnantPourDeuxDonnantAleatoireStrategie mockedExternalStrategy;
 
     @InjectMocks
-    private ExternalDonnantForTwoDonnantsStrategy strategyUnderTest;
+    private ExternalDonnantForTwoDonnantsRandomStrategy strategyUnderTest;
 
     @BeforeEach
     void setUp() {
