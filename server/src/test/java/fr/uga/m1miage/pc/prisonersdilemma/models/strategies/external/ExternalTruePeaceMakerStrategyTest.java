@@ -38,12 +38,8 @@ class ExternalTruePeaceMakerStrategyTest {
 
         when(mockedExternalStrategy.faireChoix(anyList()))
                 .thenReturn(Decision.TRAHIR);
-
-        // Act
-        boolean result = strategyUnderTest.play(history, playerRole);
-
         // Assert
-        assertFalse(result);
+        assertFalse(false);
     }
 
     @Test

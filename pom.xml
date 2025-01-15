@@ -105,6 +105,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${springDoc.version}</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>

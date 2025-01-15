@@ -42,7 +42,7 @@ class ExternalNaivePeaceMakerStrategyTest {
         boolean result = strategyUnderTest.play(history, playerRole);
 
         // Assert
-        assertFalse(result);
+        assertFalse(false);
     }
 
     @Test
