@@ -80,6 +80,16 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>fr.uga.l3miage.pc</groupId>
+			<artifactId>prisoners-dilemma</artifactId>
+			<scope>system</scope>
+			<version>1.0-SNAPSHOT</version>
+			<systemPath>${basedir}/libs/pc-project.jar</systemPath>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
